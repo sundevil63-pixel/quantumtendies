@@ -1,629 +1,647 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Owen's World">
-  <title>Owen's World 🍄</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-    html, body {
-      width: 100%; height: 100%;
-      overflow: hidden;
-      background: #5B9BD5;
-      font-family: 'Nunito', sans-serif;
-      touch-action: manipulation;
-    }
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@400;600&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #00d96f;
+    --red: #ff2d55;
+    --gold: #f5c400;
+    --blue: #0072ce;
+    --cnbc-red: #cc0000;
+    --cnbc-bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1c2537;
+    --border: #243047;
+    --text: #eef2ff;
+    --muted: #7a8aa8;
+    --font-display: 'Anton', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+    --font-body: 'Inter', sans-serif;
+  }
+  #qt-root { background: var(--cnbc-bg); color: var(--text); font-family: var(--font-body); min-height: 600px; overflow: hidden; position: relative; }
 
-    .app {
-      width: 100%;
-      height: 100vh;
-      background: linear-gradient(180deg, #5B9BD5 0%, #87CEEB 35%, #4CAF50 35%, #388E3C 100%);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      position: relative;
-    }
+  /* CNBC TOP BAR */
+  .cnbc-topbar {
+    background: var(--cnbc-red);
+    padding: 4px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-display);
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .cnbc-logo { color: #fff; font-size: 16px; letter-spacing: 3px; }
+  .cnbc-tagline { color: rgba(255,255,255,0.8); font-size: 10px; font-family: var(--font-mono); letter-spacing: 1px; }
+  .cnbc-live { background: #fff; color: var(--cnbc-red); font-size: 10px; padding: 2px 7px; border-radius: 2px; font-family: var(--font-mono); animation: blink-live 1.5s infinite; }
+  @keyframes blink-live { 0%,100%{opacity:1} 50%{opacity:0.5} }
 
-    /* CLOUDS */
-    .clouds { position: absolute; top: 0; left: 0; right: 0; height: 140px; pointer-events: none; z-index: 0; }
-    .cloud { position: absolute; background: white; border-radius: 50px; opacity: .9; }
-    .cloud::before, .cloud::after { content: ''; position: absolute; background: white; border-radius: 50%; }
-    .c1 { width: 90px; height: 30px; top: 20px; left: 5%; }
-    .c1::before { width: 44px; height: 44px; top: -22px; left: 12px; }
-    .c1::after { width: 34px; height: 34px; top: -16px; left: 42px; }
-    .c2 { width: 110px; height: 36px; top: 45px; left: 35%; }
-    .c2::before { width: 54px; height: 54px; top: -28px; left: 16px; }
-    .c2::after { width: 40px; height: 40px; top: -20px; left: 54px; }
-    .c3 { width: 78px; height: 26px; top: 14px; right: 8%; }
-    .c3::before { width: 38px; height: 38px; top: -20px; left: 10px; }
-    .c3::after { width: 30px; height: 30px; top: -14px; left: 36px; }
+  /* TICKER */
+  .ticker-bar { background: #000; border-bottom: 2px solid var(--cnbc-red); padding: 5px 0; overflow: hidden; white-space: nowrap; }
+  .ticker-inner { display: inline-block; animation: scroll-left 22s linear infinite; font-family: var(--font-mono); font-size: 11px; }
+  .ticker-inner .sym { color: #fff; font-weight: 700; }
+  .ticker-inner .up { color: var(--green); }
+  .ticker-inner .dn { color: var(--red); }
+  .ticker-inner .div { color: var(--muted); margin: 0 8px; }
+  @keyframes scroll-left { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 
-    /* HEADER */
-    .header {
-      position: relative; z-index: 10;
-      text-align: center;
-      padding: 18px 16px 10px;
-      flex-shrink: 0;
-    }
+  /* HEADER / CHYRON AREA */
+  .studio-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .show-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--gold);
+  }
+  .show-title span { color: var(--green); }
+  .net-worth-block { text-align: right; }
+  .nw-label { font-family: var(--font-mono); font-size: 9px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+  .nw-value { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: var(--gold); transition: color 0.3s; }
+  .nw-value.up { color: var(--green); animation: pop 0.4s ease; }
+  .nw-value.dn { color: var(--red); animation: shake 0.4s ease; }
+  @keyframes pop { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
 
-    .title {
-      font-family: 'Press Start 2P', monospace;
-      font-size: clamp(10px, 2.5vw, 16px);
-      color: #FFD700;
-      text-shadow: 2px 2px 0 #8B0000, -1px -1px 0 #8B0000, 1px -1px 0 #8B0000, -1px 1px 0 #8B0000;
-      line-height: 1.8;
-      margin-bottom: 6px;
-    }
+  /* PROGRESS / ROUND BAR */
+  .round-bar {
+    background: #000;
+    border-bottom: 1px solid var(--border);
+    padding: 6px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .dots-wrap { display: flex; gap: 4px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); transition: background 0.3s; }
+  .dot.done { background: var(--green); }
+  .dot.cur { background: var(--gold); animation: blink-dot 1s infinite; }
+  @keyframes blink-dot { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .player-badge {
+    margin-left: auto;
+    background: var(--cnbc-red);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 12px;
+    letter-spacing: 1px;
+    padding: 2px 10px;
+    border-radius: 2px;
+  }
 
-    .hud {
-      display: flex; justify-content: center; gap: 10px; margin-bottom: 6px;
-    }
+  /* MAIN CONTENT */
+  .main { padding: 14px 16px; }
 
-    .hud-item {
-      font-family: 'Press Start 2P', monospace;
-      font-size: clamp(7px, 1.6vw, 11px);
-      color: #FFD700;
-      text-shadow: 1px 1px 0 #8B0000;
-      background: rgba(0,0,0,0.28);
-      padding: 5px 10px;
-      border-radius: 6px;
-    }
+  /* CHYRON / BREAKING NEWS BANNER */
+  .chyron {
+    display: none;
+    background: #000;
+    border-left: 4px solid var(--cnbc-red);
+    margin-bottom: 12px;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 2px;
+    animation: fadeIn 0.4s ease;
+  }
+  .chyron.show { display: block; }
+  .chyron-top { background: var(--cnbc-red); padding: 2px 10px; font-family: var(--font-display); font-size: 11px; letter-spacing: 1px; color: #fff; display: flex; align-items: center; gap: 6px; }
+  .chyron-body { padding: 6px 10px; font-family: var(--font-mono); font-size: 12px; color: #fff; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:translateY(0)} }
 
-    .coin-spin { display: inline-block; animation: coinSpin 2s infinite; }
-    @keyframes coinSpin { 0%,100%{transform:scaleX(1);}50%{transform:scaleX(0.15);} }
+  /* PERSONALITY QUOTE BAR */
+  .personality-bar {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--blue);
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    display: none;
+  }
+  .personality-bar.show { display: flex; }
+  .personality-avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--blue);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+  .personality-name { font-family: var(--font-mono); font-size: 10px; color: var(--blue); font-weight: 700; text-transform: uppercase; margin-bottom: 3px; }
+  .personality-quote { color: var(--text); font-style: italic; line-height: 1.5; }
 
-    .diff-bar { display: flex; justify-content: center; gap: 6px; }
-    .diff-btn {
-      font-family: 'Press Start 2P', monospace;
-      font-size: clamp(6px, 1.4vw, 9px);
-      padding: 6px 12px;
-      border-radius: 6px;
-      border: 2px solid rgba(0,0,0,0.3);
-      cursor: pointer;
-      color: white;
-      background: rgba(0,0,0,0.2);
-      touch-action: manipulation;
-    }
-    .diff-btn.active { background: #FFD700; color: #8B0000; border-color: #8B0000; }
+  /* SCENE BOX */
+  .scene-tag-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .scene-tag { font-family: var(--font-mono); font-size: 10px; background: var(--surface2); border: 1px solid var(--border); padding: 3px 8px; border-radius: 2px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .narrative-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--gold);
+    border-radius: 4px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    font-size: 14px;
+    line-height: 1.75;
+    min-height: 80px;
+  }
+  .narrative-box .big-emoji { font-size: 22px; float: left; margin-right: 8px; line-height: 1; }
+  .loading-dots { display: inline-flex; gap: 4px; align-items: center; }
+  .loading-dots span { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; animation: ld 1.2s infinite; }
+  .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes ld { 0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-7px)} }
 
-    /* NAV */
-    .main { position: relative; z-index: 10; flex: 1; overflow: hidden; padding: 8px 12px 4px; display: flex; flex-direction: column; }
+  /* HOLDINGS STRIP */
+  .holdings-strip { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 3px; }
+  .holding { background: var(--surface2); border: 1px solid var(--border); border-radius: 3px; padding: 4px 8px; font-family: var(--font-mono); font-size: 10px; white-space: nowrap; flex-shrink: 0; }
+  .holding .ht { color: var(--gold); font-weight: 700; }
+  .holding .hp { margin-left: 4px; }
+  .holding .hp.pos { color: var(--green); }
+  .holding .hp.neg { color: var(--red); }
 
-    .nav-tabs {
-      display: flex; gap: 6px; justify-content: center; flex-shrink: 0; margin-bottom: 8px;
-    }
+  /* CHOICES */
+  .choices-label { font-family: var(--font-mono); font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .choices-grid { display: grid; gap: 7px; }
+  .choice-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 11px 13px;
+    text-align: left;
+    cursor: pointer;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 1.4;
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    transition: all 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .choice-btn::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--border); transition: background 0.15s; }
+  .choice-btn:hover { border-color: var(--gold); background: var(--surface2); transform: translateX(2px); }
+  .choice-btn:hover::before { background: var(--gold); }
+  .choice-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+  .c-ticker { font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(245,196,0,0.1); color: var(--gold); border: 1px solid rgba(245,196,0,0.25); padding: 2px 6px; border-radius: 2px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+  .c-text { flex: 1; }
+  .c-text strong { color: #fff; }
+  .c-risk { font-size: 10px; font-family: var(--font-mono); white-space: nowrap; flex-shrink: 0; padding: 2px 6px; border-radius: 2px; margin-top: 1px; }
+  .c-risk.high { background: rgba(255,45,85,0.15); color: var(--red); border: 1px solid rgba(255,45,85,0.25); }
+  .c-risk.medium { background: rgba(245,196,0,0.1); color: var(--gold); border: 1px solid rgba(245,196,0,0.2); }
+  .c-risk.low { background: rgba(0,217,111,0.1); color: var(--green); border: 1px solid rgba(0,217,111,0.2); }
 
-    .tab-btn {
-      font-family: 'Press Start 2P', monospace;
-      font-size: clamp(6px, 1.4vw, 8px);
-      padding: 8px 12px;
-      border: 3px solid #8B0000;
-      border-radius: 7px;
-      cursor: pointer;
-      background: #E53935;
-      color: white;
-      text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
-      box-shadow: 0 3px 0 #8B0000;
-      line-height: 1.5;
-      text-align: center;
-      touch-action: manipulation;
-      transition: transform .1s;
-    }
-    .tab-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #8B0000; }
-    .tab-btn.active { background: #FFD700; color: #8B0000; border-color: #8B0000; }
+  /* PORTFOLIO SUMMARY ROW */
+  .port-summary { display: flex; gap: 8px; margin-bottom: 10px; }
+  .port-stat { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: 3px; padding: 6px 10px; text-align: center; }
+  .port-stat .ps-label { font-family: var(--font-mono); font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .port-stat .ps-val { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--text); }
+  .port-stat .ps-val.pos { color: var(--green); }
+  .port-stat .ps-val.neg { color: var(--red); }
 
-    /* PANELS */
-    .panels { flex: 1; overflow: hidden; position: relative; }
+  /* INTRO */
+  .intro { text-align: center; padding: 24px 16px 20px; }
+  .intro-logo { font-family: var(--font-display); font-size: 48px; letter-spacing: 3px; color: var(--gold); text-shadow: 0 0 40px rgba(245,196,0,0.25); line-height: 1; margin-bottom: 4px; }
+  .intro-sub { font-family: var(--font-display); font-size: 16px; letter-spacing: 3px; color: var(--cnbc-red); margin-bottom: 6px; }
+  .intro-network { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 2px; margin-bottom: 16px; }
+  .intro-desc { font-size: 13px; color: var(--muted); max-width: 400px; margin: 0 auto 20px; line-height: 1.75; }
+  .intro-desc strong { color: var(--text); }
+  .stock-board { display: flex; justify-content: center; flex-wrap: wrap; gap: 5px; margin-bottom: 18px; }
+  .sb-chip { font-family: var(--font-mono); font-size: 11px; padding: 3px 8px; border-radius: 2px; }
+  .sb-chip.hot { background: rgba(245,196,0,0.1); border: 1px solid rgba(245,196,0,0.3); color: var(--gold); }
+  .sb-chip.warm { background: rgba(0,217,111,0.08); border: 1px solid rgba(0,217,111,0.2); color: var(--green); }
+  .sb-chip.cool { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); }
 
-    .game-panel {
-      display: none;
-      background: rgba(255,255,255,0.96);
-      border-radius: 12px;
-      border: 4px solid #8B0000;
-      padding: 14px 14px 10px;
-      box-shadow: 0 4px 0 #8B0000;
-      height: 100%;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-    .game-panel.active { display: block; }
+  .player-section { margin-bottom: 20px; }
+  .player-label { font-family: var(--font-mono); font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .player-row { display: flex; justify-content: center; gap: 8px; }
+  .p-chip { background: var(--surface2); border: 1px solid var(--border); border-radius: 3px; padding: 8px 16px; font-family: var(--font-display); font-size: 16px; letter-spacing: 1px; cursor: pointer; color: var(--muted); transition: all 0.15s; }
+  .p-chip:hover, .p-chip.active { border-color: var(--cnbc-red); color: #fff; background: rgba(204,0,0,0.15); }
 
-    .game-title {
-      font-family: 'Press Start 2P', monospace;
-      font-size: clamp(8px, 1.8vw, 11px);
-      color: #E53935;
-      text-align: center;
-      margin-bottom: 10px;
-      text-shadow: 1px 1px 0 #8B0000;
-    }
+  .start-btn { background: var(--cnbc-red); color: #fff; border: none; border-radius: 3px; padding: 13px 36px; font-family: var(--font-display); font-size: 22px; letter-spacing: 2px; cursor: pointer; transition: all 0.18s; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto; }
+  .start-btn:hover { background: #e60000; transform: scale(1.04); box-shadow: 0 0 24px rgba(204,0,0,0.4); }
+  .disclaimer { font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin-top: 8px; }
 
-    /* MEMORY */
-    .memory-grid { display: grid; gap: 7px; max-width: 400px; margin: 0 auto; }
-    .mem-card {
-      aspect-ratio: 1;
-      border-radius: 8px;
-      border: 3px solid #E53935;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      background: #E53935;
-      user-select: none;
-      box-shadow: 0 3px 0 #8B0000;
-      position: relative;
-      transition: transform .2s;
-      touch-action: manipulation;
-    }
-    .mem-card .back {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      background: #E53935; border-radius: 6px;
-      font-family: 'Press Start 2P', monospace;
-      font-size: clamp(11px, 2vw, 16px); color: white;
-    }
-    .mem-card .front { display: none; font-size: clamp(20px, 4vw, 30px); }
-    .mem-card.flipped .back { display: none; }
-    .mem-card.flipped .front { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
-    .mem-card.flipped { background: #FFF8E1; transform: scale(1.05); }
-    .mem-card.matched { background: #E8F5E9; border-color: #388E3C; cursor: default; }
+  /* OUTCOME */
+  .outcome { display: none; text-align: center; padding: 28px 16px; }
+  .outcome.show { display: block; }
+  .out-bug { font-family: var(--font-display); font-size: 10px; letter-spacing: 2px; color: var(--cnbc-red); margin-bottom: 8px; }
+  .out-emoji { font-size: 54px; animation: popIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275); margin-bottom: 12px; }
+  @keyframes popIn { from{transform:scale(0)} to{transform:scale(1)} }
+  .out-title { font-family: var(--font-display); font-size: 38px; letter-spacing: 2px; margin-bottom: 8px; }
+  .out-title.win { color: var(--gold); text-shadow: 0 0 30px rgba(245,196,0,0.5); }
+  .out-title.lose { color: var(--red); }
+  .out-title.close { color: var(--text); }
+  .out-stat { font-family: var(--font-mono); font-size: 30px; font-weight: 700; margin-bottom: 6px; }
+  .out-stat.pos { color: var(--green); }
+  .out-stat.neg { color: var(--red); }
+  .out-sub { color: var(--muted); font-size: 13px; max-width: 400px; margin: 0 auto 20px; line-height: 1.7; }
+  .leaderboard { max-width: 340px; margin: 0 auto 20px; }
+  .lb-title { font-family: var(--font-mono); font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .lb-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; background: var(--surface); border-radius: 3px; margin-bottom: 4px; font-family: var(--font-mono); font-size: 12px; border: 1px solid var(--border); }
+  .lb-row .lb-name { color: var(--text); }
+  .lb-row .lb-val.pos { color: var(--green); }
+  .lb-row .lb-val.neg { color: var(--red); }
+  .lb-row .lb-val.gold { color: var(--gold); }
+  .restart-btn { background: var(--gold); color: #000; border: none; border-radius: 3px; padding: 12px 30px; font-family: var(--font-display); font-size: 20px; letter-spacing: 1px; cursor: pointer; transition: all 0.15s; }
+  .restart-btn:hover { background: #ffe033; transform: scale(1.04); }
+</style>
 
-    /* NUMBERS */
-    .num-display {
-      text-align: center; line-height: 1.3;
-      margin-bottom: 8px; min-height: 56px;
-      font-size: clamp(28px, 6vw, 44px);
-      letter-spacing: 2px;
-    }
-    .num-choices { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; max-width: 280px; margin: 0 auto; }
-    .num-choice {
-      font-family: 'Press Start 2P', monospace;
-      font-size: clamp(16px, 3.5vw, 22px);
-      padding: clamp(10px, 2.5vw, 16px);
-      border: 3px solid #1565C0; border-radius: 8px;
-      background: #1976D2; color: white;
-      cursor: pointer; box-shadow: 0 3px 0 #1565C0;
-      text-align: center; touch-action: manipulation;
-    }
-    .num-choice.correct { background: #388E3C; border-color: #1B5E20; }
-    .num-choice.wrong { background: #C62828; border-color: #8B0000; animation: shake .4s; }
-
-    /* LETTERS */
-    .big-letter {
-      font-family: 'Press Start 2P', monospace;
-      font-size: clamp(48px, 10vw, 72px);
-      color: #E53935;
-      text-shadow: 3px 3px 0 #8B0000;
-      text-align: center; line-height: 1.1;
-    }
-    .letter-hint { font-size: clamp(28px, 6vw, 42px); text-align: center; margin: 4px 0; }
-    .letter-prompt { font-family: 'Press Start 2P', monospace; font-size: clamp(7px, 1.4vw, 9px); color: #555; text-align: center; margin-bottom: 10px; }
-    .letter-choices { display: grid; gap: 7px; max-width: 320px; margin: 0 auto; }
-    .letter-choice {
-      font-family: 'Press Start 2P', monospace;
-      font-size: clamp(11px, 2.2vw, 15px);
-      padding: clamp(9px, 2vw, 13px) 4px;
-      border: 3px solid #7B1FA2; border-radius: 8px;
-      background: #9C27B0; color: white;
-      cursor: pointer; box-shadow: 0 3px 0 #7B1FA2;
-      text-align: center; touch-action: manipulation;
-    }
-    .letter-choice.correct { background: #388E3C; border-color: #1B5E20; }
-    .letter-choice.wrong { background: #C62828; border-color: #8B0000; animation: shake .4s; }
-
-    /* SHAPES */
-    .shape-display { display: flex; justify-content: center; align-items: center; margin: 6px 0 10px; }
-    .shape-svg { display: block; margin: 0 auto; }
-    .shape-choices { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; max-width: 340px; margin: 0 auto; }
-    .shape-choice {
-      padding: 10px 6px;
-      border: 3px solid #E65100; border-radius: 8px;
-      background: #FF6F00; color: white;
-      cursor: pointer; box-shadow: 0 3px 0 #BF360C;
-      display: flex; align-items: center; justify-content: center; gap: 6px;
-      font-family: 'Press Start 2P', monospace;
-      font-size: clamp(7px, 1.4vw, 9px);
-      text-align: center; touch-action: manipulation;
-    }
-    .shape-choice.correct { background: #388E3C; border-color: #1B5E20; }
-    .shape-choice.wrong { background: #C62828; border-color: #8B0000; animation: shake .4s; }
-    .shape-mode-toggle { display: flex; justify-content: center; gap: 7px; margin-bottom: 10px; }
-    .mode-btn {
-      font-family: 'Press Start 2P', monospace;
-      font-size: clamp(6px, 1.3vw, 8px);
-      padding: 6px 10px;
-      border: 2px solid #8B0000; border-radius: 5px;
-      cursor: pointer; background: #fff; color: #8B0000;
-      touch-action: manipulation;
-    }
-    .mode-btn.active { background: #E53935; color: white; }
-
-    /* SHARED */
-    .feedback {
-      text-align: center;
-      font-family: 'Press Start 2P', monospace;
-      font-size: clamp(8px, 1.6vw, 10px);
-      margin-top: 10px; min-height: 18px;
-    }
-    .feedback.good { color: #388E3C; }
-    .feedback.bad { color: #C62828; }
-    .score-row {
-      text-align: center; margin-top: 8px;
-      font-family: 'Press Start 2P', monospace;
-      font-size: clamp(7px, 1.4vw, 9px); color: #E53935;
-    }
-    .num-prompt { font-family: 'Press Start 2P', monospace; font-size: clamp(7px, 1.4vw, 9px); color: #555; text-align: center; margin-bottom: 10px; }
-
-    .reset-btn {
-      display: block; margin: 10px auto 0;
-      font-family: 'Press Start 2P', monospace;
-      font-size: clamp(7px, 1.4vw, 9px);
-      padding: 10px 20px;
-      background: #4CAF50; color: white;
-      border: 3px solid #388E3C; border-radius: 6px;
-      box-shadow: 0 3px 0 #388E3C;
-      cursor: pointer; touch-action: manipulation;
-    }
-    .reset-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #388E3C; }
-
-    @keyframes shake { 0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);} }
-    @keyframes bounce { 0%,100%{transform:translate(-50%,-50%);}50%{transform:translate(-50%,-58%);} }
-
-    /* GROUND */
-    .ground-deco {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      height: 32px; background: #388E3C;
-      display: flex; align-items: flex-start; padding-top: 2px;
-      overflow: hidden; z-index: 1; flex-shrink: 0;
-    }
-    .block { width: 32px; height: 26px; background: #CD853F; border: 2px solid #8B4513; border-radius: 2px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; }
-    .pipe { width: 26px; height: 36px; background: #4CAF50; border: 2px solid #388E3C; border-radius: 4px 4px 0 0; flex-shrink: 0; margin-top: -8px; }
-
-    /* CELEBRATION */
-    .celebration { position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 999; display: none; }
-    .confetti-piece { position: absolute; border-radius: 2px; animation: fall 1.8s ease-in forwards; }
-    .celeb-msg {
-      position: absolute; top: 40%; left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: 'Press Start 2P', monospace;
-      font-size: clamp(14px, 3.5vw, 20px);
-      color: #FFD700; text-shadow: 2px 2px 0 #8B0000;
-      text-align: center; line-height: 2; pointer-events: none;
-      animation: bounce .5s infinite;
-    }
-    @keyframes fall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1;}100%{transform:translateY(110vh) rotate(540deg);opacity:0;} }
-  </style>
-</head>
-<body>
-<div class="app">
-  <div class="clouds">
-    <div class="cloud c1"></div>
-    <div class="cloud c2"></div>
-    <div class="cloud c3"></div>
+<div id="qt-root">
+  <div class="cnbc-topbar">
+    <div class="cnbc-logo">CNBC</div>
+    <div class="cnbc-tagline">FIRST IN BUSINESS WORLDWIDE</div>
+    <div class="cnbc-live">● LIVE</div>
   </div>
 
-  <div class="header">
-    <div class="title">⭐ OWEN'S WORLD ⭐</div>
-    <div class="hud">
-      <div class="hud-item"><span class="coin-spin">🪙</span> <span id="total-stars">0</span> STARS</div>
-      <div class="hud-item">🔥 STREAK: <span id="streak">0</span></div>
-      <div class="hud-item">❤️ LIVES: <span id="lives">❤️❤️❤️</span></div>
-    </div>
-    <div class="diff-bar">
-      <button class="diff-btn active" onclick="setDiff('easy')">🟢 EASY</button>
-      <button class="diff-btn" onclick="setDiff('medium')">🟡 MEDIUM</button>
-      <button class="diff-btn" onclick="setDiff('hard')">🔴 HARD</button>
+  <div class="ticker-bar">
+    <div class="ticker-inner" id="tickerEl"></div>
+  </div>
+
+  <div class="studio-header">
+    <div class="show-title">QUANTUM<span>TENDIES</span></div>
+    <div class="net-worth-block">
+      <div class="nw-label">PORTFOLIO VALUE</div>
+      <div class="nw-value" id="nwEl">$10,000</div>
     </div>
   </div>
 
-  <div class="main">
-    <div class="nav-tabs">
-      <button class="tab-btn active" onclick="switchTab('memory')">🍄<br>MEMORY</button>
-      <button class="tab-btn" onclick="switchTab('numbers')">🔢<br>NUMBERS</button>
-      <button class="tab-btn" onclick="switchTab('letters')">🔤<br>LETTERS</button>
-      <button class="tab-btn" onclick="switchTab('shapes')">🔷<br>SHAPES</button>
-    </div>
+  <div id="gameArea">
 
-    <div class="panels">
-      <!-- MEMORY -->
-      <div class="game-panel active" id="panel-memory">
-        <div class="game-title">🃏 MATCH THE PAIRS!</div>
-        <div class="memory-grid" id="memory-grid"></div>
-        <div class="score-row" id="mem-score">PAIRS: 0</div>
-        <button class="reset-btn" onclick="initMemory()">▶ NEW GAME</button>
+    <!-- INTRO -->
+    <div class="intro" id="introScreen">
+      <div class="intro-logo">QUANTUM TENDIES</div>
+      <div class="intro-sub">RAGS TO RICHES SIMULATOR</div>
+      <div class="intro-network">A CNBC MARKETS EXPERIENCE · NOT FINANCIAL ADVICE</div>
+
+      <div class="stock-board">
+        <span class="sb-chip hot">AMD 🔴</span>
+        <span class="sb-chip hot">NVDA 💚</span>
+        <span class="sb-chip warm">HIMS 💊</span>
+        <span class="sb-chip hot">TSLA 🔥</span>
+        <span class="sb-chip warm">NOW ⚙️</span>
+        <span class="sb-chip cool">HOOD 🏹</span>
+        <span class="sb-chip hot">IREN ⚡</span>
+        <span class="sb-chip cool">VIX 🌪️</span>
+        <span class="sb-chip warm">SOFI 🏦</span>
+        <span class="sb-chip cool">DOGE 🐕</span>
       </div>
 
-      <!-- NUMBERS -->
-      <div class="game-panel" id="panel-numbers">
-        <div class="game-title">🌟 COUNT THE COINS!</div>
-        <div class="num-display" id="num-display"></div>
-        <div class="num-prompt" id="num-prompt">HOW MANY? PICK THE RIGHT NUMBER!</div>
-        <div class="num-choices" id="num-choices"></div>
-        <div class="feedback" id="num-feedback"></div>
-        <div class="score-row" id="num-score">SCORE: 0</div>
+      <div class="intro-desc">
+        You start with <strong>$10,000</strong> and absolutely no business managing money.<br>
+        Navigate <strong>12 rounds</strong> of market chaos, CNBC hot takes, and degenerate stock picks.<br>
+        Reach <strong>$1,000,000</strong> in <strong>Quantum Tendies</strong> — or die on the margin call floor. 🍗
       </div>
 
-      <!-- LETTERS -->
-      <div class="game-panel" id="panel-letters">
-        <div class="game-title">🅰️ FIND THE LETTER!</div>
-        <div class="letter-hint" id="letter-hint"></div>
-        <div class="big-letter" id="big-letter"></div>
-        <div class="letter-prompt" id="letter-prompt"></div>
-        <div class="letter-choices" id="letter-choices"></div>
-        <div class="feedback" id="letter-feedback"></div>
-        <div class="score-row" id="letter-score">SCORE: 0</div>
-      </div>
-
-      <!-- SHAPES -->
-      <div class="game-panel" id="panel-shapes">
-        <div class="game-title">🔷 SHAPES & COLORS!</div>
-        <div class="shape-mode-toggle">
-          <button class="mode-btn active" id="modeShape" onclick="setShapeMode('shape')">SHAPE</button>
-          <button class="mode-btn" id="modeColor" onclick="setShapeMode('color')">COLOR</button>
-          <button class="mode-btn" id="modeBoth" onclick="setShapeMode('both')">BOTH</button>
+      <div class="player-section">
+        <div class="player-label">WHO'S ON DESK TODAY?</div>
+        <div class="player-row">
+          <div class="p-chip active" id="pRyan" onclick="selectPlayer('Ryan')">RYAN</div>
+          <div class="p-chip" id="pFranco" onclick="selectPlayer('Franco')">FRANCO</div>
+          <div class="p-chip" id="pJoel" onclick="selectPlayer('Joel')">JOEL</div>
         </div>
-        <div class="shape-display" id="shape-display"></div>
-        <div class="num-prompt" id="shape-prompt"></div>
-        <div class="shape-choices" id="shape-choices"></div>
-        <div class="feedback" id="shape-feedback"></div>
-        <div class="score-row" id="shape-score">SCORE: 0</div>
+      </div>
+
+      <button class="start-btn" onclick="startGame()">OPEN THE MARKET 🔔</button>
+      <div class="disclaimer">Pass the screen after each run · Leaderboard tracks all three</div>
+    </div>
+
+    <!-- GAME -->
+    <div id="gameScreen" style="display:none">
+      <div class="round-bar">
+        <span>ROUND</span>
+        <div class="dots-wrap" id="dotWrap"></div>
+        <span id="roundLabel">1/12</span>
+        <div class="player-badge" id="playerBadge">RYAN</div>
+      </div>
+
+      <div class="main">
+        <div class="port-summary" id="portSummary"></div>
+        <div class="holdings-strip" id="holdingsStrip"></div>
+
+        <div class="chyron" id="chyron">
+          <div class="chyron-top">🔴 BREAKING NEWS</div>
+          <div class="chyron-body" id="chyronBody"></div>
+        </div>
+
+        <div class="personality-bar" id="personalityBar">
+          <div class="personality-avatar" id="pAvatar">👔</div>
+          <div>
+            <div class="personality-name" id="pName"></div>
+            <div class="personality-quote" id="pQuote"></div>
+          </div>
+        </div>
+
+        <div class="scene-tag-row">
+          <div class="scene-tag" id="sceneTag">MARKET EVENT</div>
+        </div>
+        <div class="narrative-box" id="narrativeBox">
+          <div class="loading-dots"><span></span><span></span><span></span></div>
+        </div>
+
+        <div class="choices-label">YOUR MOVE — CHOOSE OR LOSE</div>
+        <div class="choices-grid" id="choicesGrid"></div>
       </div>
     </div>
-  </div>
 
-  <div class="ground-deco" id="ground-deco"></div>
+    <!-- OUTCOME -->
+    <div class="outcome" id="outcomeScreen">
+      <div class="out-bug" id="outBug">MARKETS CLOSED</div>
+      <div class="out-emoji" id="outEmoji"></div>
+      <div class="out-title" id="outTitle"></div>
+      <div class="out-stat" id="outStat"></div>
+      <div class="out-sub" id="outSub"></div>
+      <div class="leaderboard" id="leaderboard"></div>
+      <button class="restart-btn" onclick="resetGame()">NEXT TRADER 🔄</button>
+    </div>
+
+  </div>
 </div>
-<div class="celebration" id="celebration"></div>
 
 <script>
-// === AUDIO ===
-let AC;
-function getAC(){if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();return AC;}
-function playTone(freq,dur,type,vol){try{const ac=getAC(),o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.type=type||'square';o.frequency.setValueAtTime(freq,ac.currentTime);g.gain.setValueAtTime(vol||.13,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+dur);o.start();o.stop(ac.currentTime+dur);}catch(e){}}
-function sfxCorrect(){[523,659,784,1047].forEach((f,i)=>setTimeout(()=>playTone(f,.12,'square',.12),i*80));}
-function sfxWrong(){playTone(200,.3,'sawtooth',.1);setTimeout(()=>playTone(150,.3,'sawtooth',.1),150);}
-function sfxFlip(){playTone(400,.05,'square',.08);}
-function sfxMatch(){[659,784,1047].forEach((f,i)=>setTimeout(()=>playTone(f,.1,'square',.1),i*60));}
-function sfxWin(){[523,523,523,392,523,659,392].forEach((f,i)=>setTimeout(()=>playTone(f,.15,'square',.15),i*120));}
-function sfxStar(){[880,1100,1320].forEach((f,i)=>setTimeout(()=>playTone(f,.08,'sine',.12),i*50));}
-function sfxStreak(){[659,784,988,1319].forEach((f,i)=>setTimeout(()=>playTone(f,.1,'square',.14),i*70));}
+const TICKERS = [
+  ['AMD','168.40','+6.9%','up'],['NVDA','890.50','+12.4%','up'],
+  ['HIMS','42.10','+18.7%','up'],['TSLA','248.77','+8.3%','up'],
+  ['NOW','812.30','+4.2%','up'],['HOOD','19.88','-3.2%','dn'],
+  ['IREN','14.20','+22.0%','up'],['VIX','28.50','+44.0%','up'],
+  ['SOFI','9.12','+6.9%','up'],['DOGE','0.42','+69%','up'],
+  ['SPY','495.30','-0.8%','dn'],['RIVN','11.20','-12%','dn'],
+  ['SNDL','0.18','-88%','dn'],['BB','2.40','+3.1%','up'],
+];
 
-// === STATE ===
-let totalStars=0,streak=0,livesLeft=3,difficulty='easy';
-let numScoreVal=0,letterScoreVal=0,shapeScoreCount=0;
+const SYSTEM_PROMPT = `You are the narrator AND resident CNBC personality for "QUANTUM TENDIES" — a WSB-style choose-your-own-path stock market game hosted on a fake CNBC broadcast.
 
-const diffSettings={
-  easy:{memPairs:6,numMax:5,numChoices:4,letterChoices:4},
-  medium:{memPairs:8,numMax:10,numChoices:4,letterChoices:6},
-  hard:{memPairs:10,numMax:15,numChoices:5,letterChoices:8}
-};
+TONE: Hilarious, unhinged, meme-heavy WSB energy. Use authentic Wall Street slang: tendies, diamond hands, bag holder, paper hands, loss porn, the theta gang, going to the moon, yolo, apes together strong, the dip, buy the rip, stonks, degenerate, regard (affectionate), hedge fund clowns, the Fed is not your friend, free money printer, margin call roulette, dark pool manipulation, the almighty options chain, IV crush, infinite money glitch, etc.
 
-function setDiff(d){
-  difficulty=d;
-  document.querySelectorAll('.diff-btn').forEach((b,i)=>b.classList.toggle('active',['easy','medium','hard'][i]===d));
-  livesLeft=3;updateHUD();
-  initMemory();initNumbers();initLetters();initShapes();
-}
+CNBC PERSONALITY ROTATION — each round features exactly ONE personality delivering a quote. Rotate through these real CNBC/finance media personalities with their signature styles:
+- Jim Cramer: LOUD, "BOOYAH!", contrarian indicator jokes, "DO YOUR HOMEWORK", MAAAD MONEY energy
+- Sara Eisen: calm, skeptical, asks the real macro question nobody wants to answer
+- Scott Wapner: Fast Money desk urgency, "the call of the day", hedge fund sources
+- Melissa Lee: Fast Money host, late-night energy, slightly chaotic
+- Carl Quintanilla: morning show anchor, trying to stay professional while everything burns
+- Andrew Ross Sorkin: DealBook vibes, serious tone completely at odds with the chaos
+- Becky Quick: Buffett's friend, asks what Warren would do
+- David Faber: "I have sources telling me...", M&A whisperer
+- Joe Kernen: Squawk Box curmudgeon, skeptical of everything, anti-regulation energy
+- Kelly Evans: The Exchange host, macro data obsessed
 
-function updateHUD(){
-  document.getElementById('total-stars').textContent=totalStars;
-  document.getElementById('streak').textContent=streak;
-  document.getElementById('lives').textContent='❤️'.repeat(Math.max(0,livesLeft));
-}
+SOCIAL COMMENTARY: Weave in sharp but funny observations about: the absurdity of retail vs hedge funds, the Fed printing money, the gap between Wall St and Main St, the 9-to-5 rat race being optional if you yolo correctly, billionaires tweeting stocks up and down, algorithmic trading stealing your lunch, the SEC showing up 3 years late to every party.
 
-function addStars(n){totalStars+=n;sfxStar();streak++;if(streak>0&&streak%3===0)sfxStreak();updateHUD();}
-function loseLife(){livesLeft=Math.max(0,livesLeft-1);streak=0;updateHUD();if(livesLeft===0){setTimeout(()=>{livesLeft=3;updateHUD();celebrate('TRY AGAIN, OWEN! 💪');},800);}}
+STOCKS TO USE: AMD, NVDA, HIMS, TSLA, NOW, HOOD, IREN, VIX (as a play), SOFI, DOGE, SPY puts, RIVN, LCID, BB, NOK
 
-function switchTab(tab){
-  getAC();
-  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',['memory','numbers','letters','shapes'][i]===tab));
-  document.querySelectorAll('.game-panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('panel-'+tab).classList.add('active');
-}
-
-// === MEMORY ===
-const marioEmojis=['🍄','⭐','🪙','🌺','🐢','👑','🔥','🌟','🏰','🎮'];
-let memFlipped=[],memMatchedCount=0,memLocked=false,memTotal=0;
-
-function initMemory(){
-  memFlipped=[];memMatchedCount=0;memLocked=false;
-  const cfg=diffSettings[difficulty];
-  memTotal=cfg.memPairs;
-  const cols=difficulty==='hard'?5:4;
-  const pool=[...marioEmojis].slice(0,memTotal);
-  const pairs=[...pool,...pool].sort(()=>Math.random()-.5);
-  const grid=document.getElementById('memory-grid');
-  grid.style.gridTemplateColumns=`repeat(${cols},1fr)`;
-  grid.innerHTML='';
-  pairs.forEach(emoji=>{
-    const card=document.createElement('div');
-    card.className='mem-card';
-    card.dataset.emoji=emoji;
-    card.innerHTML=`<div class="back">?</div><div class="front">${emoji}</div>`;
-    card.addEventListener('click',()=>flipCard(card));
-    grid.appendChild(card);
-  });
-  document.getElementById('mem-score').textContent=`PAIRS: 0 / ${memTotal}`;
-}
-
-function flipCard(card){
-  if(memLocked||card.classList.contains('flipped')||card.classList.contains('matched'))return;
-  sfxFlip();
-  card.classList.add('flipped');
-  memFlipped.push(card);
-  if(memFlipped.length===2){
-    memLocked=true;
-    const[a,b]=memFlipped;
-    if(a.dataset.emoji===b.dataset.emoji){
-      setTimeout(()=>{a.classList.add('matched');b.classList.add('matched');memMatchedCount++;sfxMatch();document.getElementById('mem-score').textContent=`PAIRS: ${memMatchedCount} / ${memTotal}`;addStars(1);memFlipped=[];memLocked=false;if(memMatchedCount===memTotal){sfxWin();setTimeout(()=>celebrate('🎉 AMAZING OWEN! 🎉'),200);}},400);
-    }else{
-      setTimeout(()=>{a.classList.remove('flipped');b.classList.remove('flipped');memFlipped=[];memLocked=false;loseLife();},900);
+Respond in JSON only. No markdown. No preamble.
+{
+  "scene_tag": "2-3 word ALL CAPS label",
+  "scene_emoji": "single emoji",
+  "narrative": "2-3 punchy sentences. Meme-aware, WSB slang, reference the player's past moves if available.",
+  "market_event": "short breaking news headline string for the chyron, or null",
+  "personality": {
+    "name": "Full name",
+    "emoji": "single emoji representing them",
+    "quote": "Their in-character reaction to this market event. 1-2 sentences, fully in their voice."
+  },
+  "choices": [
+    {
+      "stock": "TICKER",
+      "label": "short action label",
+      "description": "funny 1-sentence play description with Wall Street slang",
+      "risk": "high|medium|low",
+      "multiplier_range": [min, max]
     }
-  }
+  ]
+}
+3 choices always. multiplier_range: high=[0.05,3.8], medium=[0.5,2.0], low=[0.75,1.35]
+Escalate drama toward round 12. Early=chaotic fun. Mid=bigger swings. Final rounds=YOLO or die. Round 12 is apocalyptic.`;
+
+let state = {
+  netWorth: 10000,
+  round: 0,
+  maxRounds: 12,
+  history: [],
+  holdings: [],
+  player: 'Ryan',
+  scores: []
+};
+let pending = null;
+let busy = false;
+
+function buildTicker() {
+  const double = [...TICKERS, ...TICKERS];
+  const html = double.map(([s,p,c,d]) =>
+    `<span class="div">|</span><span class="sym">${s}</span> ${p} <span class="${d}">${c}</span>`
+  ).join('');
+  document.getElementById('tickerEl').innerHTML = html;
 }
 
-// === NUMBERS ===
-const coinEmojis=['🪙','⭐','🍄','🌺','🐢'];
-let numAnswer=0,numLocked=false;
+function fmt(n) {
+  if(n >= 1e6) return '$' + (n/1e6).toFixed(2) + 'M';
+  if(n >= 1000) return '$' + Math.round(n).toLocaleString();
+  return '$' + Math.round(n);
+}
 
-function initNumbers(){
-  numLocked=false;
-  document.getElementById('num-feedback').textContent='';
-  const cfg=diffSettings[difficulty];
-  const container=document.getElementById('num-choices');
-  container.innerHTML='';
-  if(difficulty==='hard'){
-    const a=Math.floor(Math.random()*6)+1,b=Math.floor(Math.random()*6)+1;
-    numAnswer=a+b;
-    document.getElementById('num-display').style.fontSize='clamp(28px,5vw,38px)';
-    document.getElementById('num-display').textContent=`${a} + ${b} = ?`;
-    document.getElementById('num-prompt').textContent='WHAT IS THE ANSWER?';
-  }else{
-    const count=Math.floor(Math.random()*cfg.numMax)+1;
-    numAnswer=count;
-    const emoji=coinEmojis[Math.floor(Math.random()*coinEmojis.length)];
-    document.getElementById('num-display').textContent=emoji.repeat(count);
-    document.getElementById('num-prompt').textContent='HOW MANY? PICK THE RIGHT NUMBER!';
-  }
-  const choices=new Set([numAnswer]);
-  const max=diffSettings[difficulty].numMax+2;
-  while(choices.size<cfg.numChoices)choices.add(Math.floor(Math.random()*max)+1);
-  [...choices].sort(()=>Math.random()-.5).forEach(n=>{
-    const btn=document.createElement('button');
-    btn.className='num-choice';btn.textContent=n;
-    btn.addEventListener('click',()=>checkNum(btn,n));
-    container.appendChild(btn);
+function selectPlayer(name) {
+  state.player = name;
+  ['Ryan','Franco','Joel'].forEach(p => {
+    const el = document.getElementById('p'+p);
+    if(el) el.className = 'p-chip' + (p === name ? ' active' : '');
   });
 }
 
-function checkNum(btn,val){
-  if(numLocked)return;numLocked=true;
-  const fb=document.getElementById('num-feedback');
-  if(val===numAnswer){btn.classList.add('correct');sfxCorrect();fb.textContent='⭐ GREAT JOB, OWEN! ⭐';fb.className='feedback good';numScoreVal++;document.getElementById('num-score').textContent='SCORE: '+numScoreVal;addStars(difficulty==='hard'?2:1);setTimeout(initNumbers,1200);}
-  else{btn.classList.add('wrong');sfxWrong();fb.textContent='❌ TRY AGAIN!';fb.className='feedback bad';loseLife();setTimeout(()=>{btn.classList.remove('wrong');numLocked=false;fb.textContent='';},900);}
+function updateNW(val, dir) {
+  const el = document.getElementById('nwEl');
+  el.textContent = fmt(val);
+  el.className = 'nw-value ' + (dir === 'up' ? 'up' : dir === 'dn' ? 'dn' : '');
+  setTimeout(() => el.className = 'nw-value', 600);
 }
 
-// === LETTERS ===
-const letterData={A:{emoji:'🍎',word:'APPLE'},B:{emoji:'🍌',word:'BANANA'},C:{emoji:'🐱',word:'CAT'},D:{emoji:'🐶',word:'DOG'},E:{emoji:'🥚',word:'EGG'},F:{emoji:'🐸',word:'FROG'},G:{emoji:'🍇',word:'GRAPES'},H:{emoji:'🏠',word:'HOUSE'},I:{emoji:'🍦',word:'ICE CREAM'},J:{emoji:'🃏',word:'JOKER'},K:{emoji:'🦘',word:'KANGAROO'},L:{emoji:'🦁',word:'LION'},M:{emoji:'🍄',word:'MARIO'},N:{emoji:'🌙',word:'NIGHT'},O:{emoji:'🦉',word:'OWL'},P:{emoji:'🍕',word:'PIZZA'},Q:{emoji:'👑',word:'QUEEN'},R:{emoji:'🌈',word:'RAINBOW'},S:{emoji:'⭐',word:'STAR'},T:{emoji:'🐢',word:'TURTLE'},U:{emoji:'☂️',word:'UMBRELLA'},V:{emoji:'🎻',word:'VIOLIN'},W:{emoji:'🌊',word:'WAVE'},X:{emoji:'✖️',word:'X-RAY'},Y:{emoji:'🪀',word:'YO-YO'},Z:{emoji:'🦓',word:'ZEBRA'}};
-let letterAnswer='',letterLocked=false;
-
-function initLetters(){
-  letterLocked=false;
-  document.getElementById('letter-feedback').textContent='';
-  const letters=Object.keys(letterData);
-  letterAnswer=letters[Math.floor(Math.random()*letters.length)];
-  const data=letterData[letterAnswer];
-  const cfg=diffSettings[difficulty];
-  document.getElementById('letter-hint').textContent=data.emoji;
-  if(difficulty==='hard'){document.getElementById('big-letter').textContent='';document.getElementById('letter-prompt').textContent=`WHICH LETTER STARTS "${data.word}"?`;}
-  else{document.getElementById('big-letter').textContent=letterAnswer;document.getElementById('letter-prompt').textContent=`FIND THE LETTER: ${letterAnswer}`;}
-  const choices=new Set([letterAnswer]);
-  while(choices.size<cfg.letterChoices)choices.add(letters[Math.floor(Math.random()*letters.length)]);
-  const container=document.getElementById('letter-choices');
-  container.style.gridTemplateColumns=`repeat(${cfg.letterChoices<=4?2:3},1fr)`;
-  container.innerHTML='';
-  [...choices].sort(()=>Math.random()-.5).forEach(l=>{
-    const btn=document.createElement('button');
-    btn.className='letter-choice';btn.textContent=l;
-    btn.addEventListener('click',()=>checkLetter(btn,l));
-    container.appendChild(btn);
-  });
-}
-
-function checkLetter(btn,val){
-  if(letterLocked)return;letterLocked=true;
-  const fb=document.getElementById('letter-feedback');
-  if(val===letterAnswer){btn.classList.add('correct');sfxCorrect();fb.textContent='⭐ PERFECT, OWEN! ⭐';fb.className='feedback good';letterScoreVal++;document.getElementById('letter-score').textContent='SCORE: '+letterScoreVal;addStars(difficulty==='hard'?2:1);setTimeout(initLetters,1200);}
-  else{btn.classList.add('wrong');sfxWrong();fb.textContent='❌ NOT QUITE!';fb.className='feedback bad';loseLife();setTimeout(()=>{btn.classList.remove('wrong');letterLocked=false;fb.textContent='';},900);}
-}
-
-// === SHAPES ===
-const shapeTypes=['circle','square','triangle','rectangle','star','heart'];
-const colorList=[{name:'RED',hex:'#E53935'},{name:'BLUE',hex:'#1976D2'},{name:'GREEN',hex:'#388E3C'},{name:'YELLOW',hex:'#F9A825'},{name:'PURPLE',hex:'#7B1FA2'},{name:'ORANGE',hex:'#E65100'},{name:'PINK',hex:'#E91E63'},{name:'BROWN',hex:'#6D4C41'}];
-let shapeAnswer='',shapeColorAnswer='',shapeLocked=false,shapeMode='shape';
-
-function setShapeMode(m){
-  shapeMode=m;
-  ['shape','color','both'].forEach(x=>{const id='mode'+x.charAt(0).toUpperCase()+x.slice(1);document.getElementById(id).classList.toggle('active',x===m);});
-  initShapes();
-}
-
-function drawShape(shape,color,size){
-  size=size||90;const s=size;
-  if(shape==='circle')return`<svg width="${s}" height="${s}"><circle cx="${s/2}" cy="${s/2}" r="${s/2-3}" fill="${color}" stroke="#333" stroke-width="2"/></svg>`;
-  if(shape==='square')return`<svg width="${s}" height="${s}"><rect x="3" y="3" width="${s-6}" height="${s-6}" fill="${color}" rx="4" stroke="#333" stroke-width="2"/></svg>`;
-  if(shape==='triangle')return`<svg width="${s}" height="${s}"><polygon points="${s/2},3 ${s-3},${s-3} 3,${s-3}" fill="${color}" stroke="#333" stroke-width="2"/></svg>`;
-  if(shape==='rectangle')return`<svg width="${s*1.5}" height="${s*0.65}"><rect x="3" y="3" width="${s*1.5-6}" height="${s*0.65-6}" fill="${color}" rx="4" stroke="#333" stroke-width="2"/></svg>`;
-  if(shape==='star'){const cx=s/2,cy=s/2,r1=s/2-3,r2=r1*0.4;let pts='';for(let i=0;i<10;i++){const ang=(i*Math.PI/5)-Math.PI/2,r=i%2===0?r1:r2;pts+=`${cx+r*Math.cos(ang)},${cy+r*Math.sin(ang)} `;}return`<svg width="${s}" height="${s}"><polygon points="${pts.trim()}" fill="${color}" stroke="#333" stroke-width="2"/></svg>`;}
-  if(shape==='heart'){const hw=s-6,hh=s-6,hx=3,hy=3;return`<svg width="${s}" height="${s}"><path d="M ${hx+hw/2} ${hy+hh*0.3} C ${hx+hw/2} ${hy} ${hx} ${hy} ${hx} ${hy+hh*0.3} C ${hx} ${hy+hh*0.6} ${hx+hw/2} ${hy+hh*0.9} ${hx+hw/2} ${hy+hh} C ${hx+hw/2} ${hy+hh*0.9} ${hx+hw} ${hy+hh*0.6} ${hx+hw} ${hy+hh*0.3} C ${hx+hw} ${hy} ${hx+hw/2} ${hy} ${hx+hw/2} ${hy+hh*0.3} Z" fill="${color}" stroke="#333" stroke-width="2"/></svg>`;}
-  return '';
-}
-
-function initShapes(){
-  shapeLocked=false;
-  document.getElementById('shape-feedback').textContent='';
-  const cfg=diffSettings[difficulty];
-  const poolSize=difficulty==='easy'?4:difficulty==='medium'?5:6;
-  const colorPoolSize=difficulty==='easy'?4:difficulty==='medium'?6:8;
-  const shape=shapeTypes[Math.floor(Math.random()*poolSize)];
-  const color=colorList[Math.floor(Math.random()*colorPoolSize)];
-  shapeAnswer=shape;shapeColorAnswer=color.name;
-  document.getElementById('shape-display').innerHTML=drawShape(shape,color.hex,100);
-  const container=document.getElementById('shape-choices');
-  container.innerHTML='';
-  if(shapeMode==='shape'){
-    document.getElementById('shape-prompt').textContent='WHAT SHAPE IS THIS?';
-    const opts=new Set([shape]);
-    while(opts.size<4)opts.add(shapeTypes[Math.floor(Math.random()*poolSize)]);
-    [...opts].sort(()=>Math.random()-.5).forEach(s=>{const btn=document.createElement('button');btn.className='shape-choice';btn.innerHTML=drawShape(s,'#999',30)+`<span>${s.toUpperCase()}</span>`;btn.addEventListener('click',()=>checkShape(btn,s,'shape'));container.appendChild(btn);});
-  }else if(shapeMode==='color'){
-    document.getElementById('shape-prompt').textContent='WHAT COLOR IS THIS?';
-    const opts=new Set([color.name]);
-    while(opts.size<4)opts.add(colorList[Math.floor(Math.random()*colorPoolSize)].name);
-    [...opts].sort(()=>Math.random()-.5).forEach(cn=>{const c=colorList.find(x=>x.name===cn);const btn=document.createElement('button');btn.className='shape-choice';btn.style.background=c.hex;btn.style.borderColor=c.hex;btn.innerHTML=`<span>${cn}</span>`;btn.addEventListener('click',()=>checkShape(btn,cn,'color'));container.appendChild(btn);});
-  }else{
-    document.getElementById('shape-prompt').textContent='WHAT SHAPE AND COLOR?';
-    const key=shape+'|'+color.name;
-    const opts=new Set([key]);
-    while(opts.size<4){const rs=shapeTypes[Math.floor(Math.random()*poolSize)];const rc=colorList[Math.floor(Math.random()*colorPoolSize)];opts.add(rs+'|'+rc.name);}
-    [...opts].sort(()=>Math.random()-.5).forEach(k=>{const[s,cn]=k.split('|');const c=colorList.find(x=>x.name===cn);const btn=document.createElement('button');btn.className='shape-choice';btn.innerHTML=drawShape(s,c.hex,26)+`<span style="font-size:7px">${cn} ${s.toUpperCase()}</span>`;btn.addEventListener('click',()=>checkShape(btn,k,'both'));container.appendChild(btn);});
+function renderProgress() {
+  const dw = document.getElementById('dotWrap');
+  dw.innerHTML = '';
+  for(let i = 0; i < state.maxRounds; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i < state.round ? ' done' : i === state.round ? ' cur' : '');
+    dw.appendChild(d);
   }
+  document.getElementById('roundLabel').textContent = (state.round+1)+'/'+state.maxRounds;
+  document.getElementById('playerBadge').textContent = state.player.toUpperCase();
 }
 
-function checkShape(btn,val,mode){
-  if(shapeLocked)return;shapeLocked=true;
-  const fb=document.getElementById('shape-feedback');
-  const correct=(mode==='shape'&&val===shapeAnswer)||(mode==='color'&&val===shapeColorAnswer)||(mode==='both'&&val===shapeAnswer+'|'+shapeColorAnswer);
-  if(correct){btn.classList.add('correct');sfxCorrect();fb.textContent='⭐ YOU GOT IT, OWEN! ⭐';fb.className='feedback good';shapeScoreCount++;document.getElementById('shape-score').textContent='SCORE: '+shapeScoreCount;addStars(mode==='both'?2:1);setTimeout(initShapes,1200);}
-  else{btn.classList.add('wrong');sfxWrong();fb.textContent='❌ OOPS! TRY AGAIN!';fb.className='feedback bad';loseLife();setTimeout(()=>{btn.classList.remove('wrong');shapeLocked=false;fb.textContent='';},900);}
+function renderPortSummary() {
+  const totalPnl = state.holdings.reduce((acc, h) => acc + h.pnl, 0);
+  const avgPnl = state.holdings.length ? totalPnl / state.holdings.length : 0;
+  const best = state.holdings.length ? state.holdings.reduce((a,b) => a.pnl > b.pnl ? a : b) : null;
+  const ps = document.getElementById('portSummary');
+  ps.innerHTML = `
+    <div class="port-stat"><div class="ps-label">CAPITAL</div><div class="ps-val">${fmt(state.netWorth)}</div></div>
+    <div class="port-stat"><div class="ps-label">AVG RETURN</div><div class="ps-val ${avgPnl >= 0 ? 'pos' : 'neg'}">${avgPnl >= 0 ? '+' : ''}${(avgPnl*100).toFixed(0)}%</div></div>
+    <div class="port-stat"><div class="ps-label">BEST PICK</div><div class="ps-val pos">${best ? best.ticker : '—'}</div></div>
+    <div class="port-stat"><div class="ps-label">PLAYS</div><div class="ps-val">${state.round}</div></div>
+  `;
 }
 
-// === CELEBRATE ===
-function celebrate(msg){
-  const el=document.getElementById('celebration');el.style.display='block';el.innerHTML='';
-  const colors=['#FFD700','#E53935','#4CAF50','#1976D2','#9C27B0','#FF9800','#00BCD4'];
-  for(let i=0;i<60;i++){const p=document.createElement('div');p.className='confetti-piece';p.style.cssText=`left:${Math.random()*100}%;top:-10px;background:${colors[Math.floor(Math.random()*colors.length)]};width:${6+Math.random()*10}px;height:${6+Math.random()*10}px;animation-delay:${Math.random()*.8}s;animation-duration:${1.2+Math.random()*.8}s;border-radius:${Math.random()>.5?'50%':'3px'};`;el.appendChild(p);}
-  const label=document.createElement('div');label.className='celeb-msg';label.textContent=msg;el.appendChild(label);
-  sfxWin();
-  setTimeout(()=>{el.style.display='none';},3500);
+function renderHoldings() {
+  const strip = document.getElementById('holdingsStrip');
+  if(!state.holdings.length) {
+    strip.innerHTML = '<div style="font-family:var(--font-mono);font-size:10px;color:var(--muted)">NO POSITIONS · CASH ONLY · DEGENERATE IN TRAINING</div>';
+    return;
+  }
+  strip.innerHTML = state.holdings.slice(-6).map(h =>
+    `<div class="holding"><span class="ht">${h.ticker}</span><span class="hp ${h.pnl>=0?'pos':'neg'}">${h.pnl>=0?'+':''}${(h.pnl*100).toFixed(0)}%</span></div>`
+  ).join('');
 }
 
-// === GROUND ===
-function buildGround(){
-  const g=document.getElementById('ground-deco');
-  ['🍄','⭐','?','🪙','?','🌺','?','⭐','🍄','🪙','?','⭐','🌺','?','🍄','⭐','🪙','?','🍄'].forEach((icon,i)=>{
-    if(i%5===3){const p=document.createElement('div');p.className='pipe';g.appendChild(p);}
-    else{const b=document.createElement('div');b.className='block';b.textContent=icon;g.appendChild(b);}
+async function fetchRound() {
+  busy = true;
+  document.getElementById('narrativeBox').innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+  document.getElementById('choicesGrid').innerHTML = '';
+  document.getElementById('chyron').className = 'chyron';
+  document.getElementById('personalityBar').className = 'personality-bar';
+
+  const pastPlays = state.history.slice(-4).map(h => `${h.stock}(${h.pnl>=0?'+':''}${(h.pnl*100).toFixed(0)}%)`).join(', ');
+  const ctx = state.round === 0
+    ? `Round 1 of 12. Player: ${state.player}. They just downloaded Robinhood and deposited their rent money. $10,000 starting capital. Set the scene.`
+    : `Round ${state.round+1} of 12. Player: ${state.player}. Net worth: ${fmt(state.netWorth)}. Recent plays: ${pastPlays || 'none yet'}. Keep it fresh, reference their history.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: [{ role: 'user', content: ctx }]
+      })
+    });
+    const data = await res.json();
+    const raw = data.content.filter(b => b.type === 'text').map(b => b.text).join('');
+    const parsed = JSON.parse(raw.replace(/```json|```/g,'').trim());
+    renderRound(parsed);
+    pending = parsed.choices;
+  } catch(e) {
+    document.getElementById('narrativeBox').innerHTML = '⚠️ Circuit breaker triggered. The market is paused. Refresh to resume.';
+  }
+  busy = false;
+}
+
+function renderRound(d) {
+  document.getElementById('sceneTag').textContent = (d.scene_emoji||'📈') + ' ' + (d.scene_tag||'MARKET EVENT');
+  document.getElementById('narrativeBox').innerHTML = `<span class="big-emoji">${d.scene_emoji||'📈'}</span>${d.narrative}`;
+
+  if(d.market_event) {
+    document.getElementById('chyronBody').textContent = d.market_event;
+    document.getElementById('chyron').className = 'chyron show';
+  }
+
+  if(d.personality) {
+    document.getElementById('pAvatar').textContent = d.personality.emoji || '👔';
+    document.getElementById('pName').textContent = d.personality.name;
+    document.getElementById('pQuote').textContent = '"' + d.personality.quote + '"';
+    document.getElementById('personalityBar').className = 'personality-bar show';
+  }
+
+  const grid = document.getElementById('choicesGrid');
+  grid.innerHTML = '';
+  (d.choices||[]).forEach((c,i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    const riskLabel = c.risk === 'high' ? '🔥 YOLO' : c.risk === 'low' ? '🛡 SAFE PLAY' : '⚡ MID RISK';
+    btn.innerHTML = `<span class="c-ticker">${c.stock}</span><span class="c-text"><strong>${c.label}</strong> — ${c.description}</span><span class="c-risk ${c.risk}">${riskLabel}</span>`;
+    btn.onclick = () => makeChoice(i);
+    grid.appendChild(btn);
   });
 }
 
-document.addEventListener('touchstart',()=>getAC(),{once:true});
-document.addEventListener('click',()=>getAC(),{once:true});
-buildGround();
-initMemory();initNumbers();initLetters();initShapes();
+function makeChoice(idx) {
+  if(!pending || busy) return;
+  const c = pending[idx];
+  const [mn, mx] = c.multiplier_range;
+  const mult = mn + Math.random() * (mx - mn);
+  const newWorth = state.netWorth * mult;
+  const pnl = mult - 1;
+
+  document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+  state.holdings.push({ ticker: c.stock, pnl });
+  state.history.push({ stock: c.stock, pnl, worth: newWorth });
+  state.netWorth = newWorth;
+  state.round++;
+  updateNW(newWorth, pnl >= 0 ? 'up' : 'dn');
+
+  if(state.netWorth >= 1e6) { setTimeout(() => showOutcome('win'), 600); return; }
+  if(state.netWorth < 50 || state.round >= state.maxRounds) { setTimeout(() => showOutcome(state.netWorth < 50 ? 'rekt' : state.netWorth >= 500000 ? 'close' : 'lose'), 600); return; }
+
+  setTimeout(() => { renderProgress(); renderPortSummary(); renderHoldings(); fetchRound(); }, 500);
+}
+
+function showOutcome(type) {
+  document.getElementById('gameScreen').style.display = 'none';
+  const os = document.getElementById('outcomeScreen');
+  os.className = 'outcome show';
+  const w = state.netWorth;
+
+  const configs = {
+    win: { bug:'🏆 QUANTUM TENDIES ACHIEVED', emoji:'🍗🚀💰', title:'TO THE MOON', tc:'win', stat: '+'+fmt(w), sc:'pos', sub:`${state.player} just turned $10,000 into ${fmt(w)}. The hedge funds are filing restraining orders. CNBC wants you in the 8am slot. Diamond hands CONFIRMED. 💎🙌` },
+    rekt: { bug:'💀 MARGIN CALL EXECUTED', emoji:'📉🚨💸', title:'LIQUIDATED', tc:'lose', stat: fmt(w), sc:'neg', sub:`${state.player}'s account has been converted to a cautionary tale on r/wallstreetbets. The Lambo dream is on hold. Your therapist's yacht, however, is fully funded. 🫡` },
+    close: { bug:'😤 SO CLOSE IT HURTS', emoji:'🤏📦😤', title:'PAPER HANDS', tc:'close', stat: fmt(w), sc:'pos', sub:`${fmt(w)} is legitimately impressive — but ${state.player} flinched before the quantum tendies threshold. So close to escaping the rat race. Back to the desk on Monday. 😤` },
+    lose: { bug:'📊 SESSION ENDED', emoji:'📦🏠💀', title:'ALMOST', tc:'lose', stat: fmt(w), sc:'neg', sub:`${state.player} ends with ${fmt(w)}. Not rags, not riches. The market remains undefeated. Jim Cramer would like to extend his condolences and somehow still recommend this as a buying opportunity. 💀` }
+  };
+  const cfg = configs[type] || configs.lose;
+
+  document.getElementById('outBug').textContent = cfg.bug;
+  document.getElementById('outEmoji').textContent = cfg.emoji;
+  document.getElementById('outTitle').textContent = cfg.title;
+  document.getElementById('outTitle').className = 'out-title ' + cfg.tc;
+  document.getElementById('outStat').textContent = cfg.stat;
+  document.getElementById('outStat').className = 'out-stat ' + cfg.sc;
+  document.getElementById('outSub').textContent = cfg.sub;
+
+  state.scores.push({ name: state.player, worth: state.netWorth, type });
+  renderLeaderboard();
+}
+
+function renderLeaderboard() {
+  const lb = document.getElementById('leaderboard');
+  if(state.scores.length < 2) { lb.innerHTML = ''; return; }
+  const sorted = [...state.scores].sort((a,b) => b.worth - a.worth);
+  const medals = ['🥇','🥈','🥉'];
+  lb.innerHTML = '<div class="lb-title">LEADERBOARD</div>' + sorted.map((s,i) => {
+    const cls = s.worth >= 1e6 ? 'gold' : s.worth >= 500000 ? 'pos' : s.worth < 1000 ? 'neg' : '';
+    return `<div class="lb-row"><span class="lb-name">${medals[i]||'#'+(i+1)} ${s.name}</span><span class="lb-val ${cls}">${fmt(s.worth)}</span></div>`;
+  }).join('');
+}
+
+function startGame() {
+  document.getElementById('introScreen').style.display = 'none';
+  document.getElementById('gameScreen').style.display = 'block';
+  renderProgress(); renderPortSummary(); renderHoldings();
+  fetchRound();
+}
+
+function resetGame() {
+  const prevScores = [...state.scores];
+  state = { netWorth: 10000, round: 0, maxRounds: 12, history: [], holdings: [], player: 'Ryan', scores: prevScores };
+  pending = null;
+  document.getElementById('outcomeScreen').className = 'outcome';
+  document.getElementById('introScreen').style.display = 'block';
+  document.getElementById('gameScreen').style.display = 'none';
+  updateNW(10000, '');
+  ['Ryan','Franco','Joel'].forEach(p => {
+    const el = document.getElementById('p'+p);
+    if(el) el.className = 'p-chip' + (p === 'Ryan' ? ' active' : '');
+  });
+  state.player = 'Ryan';
+}
+
+buildTicker();
 </script>
-</body>
-</html>
