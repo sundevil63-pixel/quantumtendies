@@ -1,116 +1,122 @@
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@400;600&display=swap');
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --green:#00d96f;--red:#ff2d55;--gold:#f5c400;--blue:#0072ce;
-  --cnbc-red:#cc0000;--bg:#0a0e1a;--surface:#111827;--surface2:#1c2537;
-  --border:#243047;--text:#eef2ff;--muted:#7a8aa8;
-  --fd:'Anton',sans-serif;--fm:'IBM Plex Mono',monospace;--fb:'Inter',sans-serif;
-}
-#qt{background:var(--bg);color:var(--text);font-family:var(--fb);min-height:600px;overflow:hidden}
-.cnbc-top{background:var(--cnbc-red);padding:4px 14px;display:flex;align-items:center;justify-content:space-between}
-.cnbc-logo{color:#fff;font-family:var(--fd);font-size:17px;letter-spacing:3px}
-.cnbc-tag{color:rgba(255,255,255,0.75);font-family:var(--fm);font-size:10px;letter-spacing:1px}
-.cnbc-live{background:#fff;color:var(--cnbc-red);font-family:var(--fm);font-size:10px;padding:2px 7px;border-radius:2px;animation:blk 1.5s infinite}
-@keyframes blk{0%,100%{opacity:1}50%{opacity:0.4}}
-.ticker-bar{background:#000;border-bottom:2px solid var(--cnbc-red);padding:5px 0;overflow:hidden;white-space:nowrap}
-.ticker-inner{display:inline-block;animation:scrl 22s linear infinite;font-family:var(--fm);font-size:11px}
-.ticker-inner .sym{color:#fff;font-weight:700}.ticker-inner .up{color:var(--green)}.ticker-inner .dn{color:var(--red)}.ticker-inner .dv{color:var(--muted);margin:0 8px}
-@keyframes scrl{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.studio-hdr{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
-.show-title{font-family:var(--fd);font-size:22px;letter-spacing:2px;color:var(--gold)}.show-title span{color:var(--green)}
-.nw-block{text-align:right}.nw-lbl{font-family:var(--fm);font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
-.nw-val{font-family:var(--fm);font-size:20px;font-weight:700;color:var(--gold);transition:color .3s}
-.nw-val.up{color:var(--green);animation:pop .4s ease}.nw-val.dn{color:var(--red);animation:shk .4s ease}
-@keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
-@keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-.round-bar{background:#000;border-bottom:1px solid var(--border);padding:6px 16px;display:flex;align-items:center;gap:10px;font-family:var(--fm);font-size:10px;color:var(--muted)}
-.dots-wrap{display:flex;gap:4px}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:background .3s}
-.dot.done{background:var(--green)}.dot.cur{background:var(--gold);animation:bd 1s infinite}
-@keyframes bd{0%,100%{opacity:1}50%{opacity:0.3}}
-.p-badge{margin-left:auto;background:var(--cnbc-red);color:#fff;font-family:var(--fd);font-size:12px;letter-spacing:1px;padding:2px 10px;border-radius:2px}
-.main{padding:14px 16px}
-.chyron{display:none;background:#000;border-left:4px solid var(--cnbc-red);margin-bottom:12px;border-radius:2px;overflow:hidden;animation:fi .4s ease}
-.chyron.show{display:block}
-.chyron-top{background:var(--cnbc-red);padding:2px 10px;font-family:var(--fd);font-size:11px;letter-spacing:1px;color:#fff}
-.chyron-body{padding:6px 10px;font-family:var(--fm);font-size:12px;color:#fff}
-@keyframes fi{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
-.pers-bar{display:none;align-items:flex-start;gap:10px;background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--blue);border-radius:4px;padding:10px 12px;margin-bottom:12px}
-.pers-bar.show{display:flex}
-.p-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;background:var(--surface)}
-.p-name{font-family:var(--fm);font-size:10px;color:var(--blue);font-weight:700;text-transform:uppercase;margin-bottom:3px}
-.p-quote{color:var(--text);font-style:italic;line-height:1.55;font-size:12px}
-.scene-tag-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.scene-tag{font-family:var(--fm);font-size:10px;background:var(--surface2);border:1px solid var(--border);padding:3px 8px;border-radius:2px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-.narr-box{background:var(--surface);border:1px solid var(--border);border-top:2px solid var(--gold);border-radius:4px;padding:14px 16px;margin-bottom:14px;font-size:14px;line-height:1.75;min-height:80px}
-.narr-box .big-e{font-size:22px;float:left;margin-right:8px;line-height:1}
-.lds{display:inline-flex;gap:4px;align-items:center}
-.lds span{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:ld 1.2s infinite}
-.lds span:nth-child(2){animation-delay:.2s}.lds span:nth-child(3){animation-delay:.4s}
-@keyframes ld{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-7px)}}
-.port-sum{display:flex;gap:7px;margin-bottom:10px}
-.ps{flex:1;min-width:0;background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:6px 8px;text-align:center}
-.ps-lbl{font-family:var(--fm);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ps-val{font-family:var(--fm);font-size:12px;font-weight:700;color:var(--text)}.ps-val.pos{color:var(--green)}.ps-val.neg{color:var(--red)}
-.holds{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:3px}
-.hold{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:4px 8px;font-family:var(--fm);font-size:10px;white-space:nowrap;flex-shrink:0}
-.hold .ht{color:var(--gold);font-weight:700}.hold .hp{margin-left:4px}.hold .hp.pos{color:var(--green)}.hold .hp.neg{color:var(--red)}
-.choices-lbl{font-family:var(--fm);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.choices-grid{display:grid;gap:7px}
-.cb{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:11px 13px;text-align:left;cursor:pointer;color:var(--text);font-family:var(--fb);font-size:13px;line-height:1.4;display:flex;align-items:flex-start;gap:9px;transition:all .15s;position:relative;overflow:hidden}
-.cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--border);transition:background .15s}
-.cb:hover{border-color:var(--gold);background:var(--surface2);transform:translateX(2px)}.cb:hover::before{background:var(--gold)}
-.cb:disabled{opacity:.35;cursor:not-allowed;transform:none}
-.c-ticker{font-family:var(--fm);font-size:11px;font-weight:700;background:rgba(245,196,0,.1);color:var(--gold);border:1px solid rgba(245,196,0,.25);padding:2px 6px;border-radius:2px;white-space:nowrap;flex-shrink:0;margin-top:1px}
-.c-txt{flex:1}.c-txt strong{color:#fff}
-.c-risk{font-size:10px;font-family:var(--fm);white-space:nowrap;flex-shrink:0;padding:2px 6px;border-radius:2px;margin-top:1px}
-.c-risk.high{background:rgba(255,45,85,.15);color:var(--red);border:1px solid rgba(255,45,85,.25)}
-.c-risk.medium{background:rgba(245,196,0,.1);color:var(--gold);border:1px solid rgba(245,196,0,.2)}
-.c-risk.low{background:rgba(0,217,111,.1);color:var(--green);border:1px solid rgba(0,217,111,.2)}
-.intro{text-align:center;padding:22px 16px 18px}
-.intro-logo{font-family:var(--fd);font-size:48px;letter-spacing:3px;color:var(--gold);text-shadow:0 0 40px rgba(245,196,0,.25);line-height:1;margin-bottom:4px}
-.intro-sub{font-family:var(--fd);font-size:15px;letter-spacing:3px;color:var(--cnbc-red);margin-bottom:5px}
-.intro-net{font-family:var(--fm);font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:14px}
-.stock-board{display:flex;justify-content:center;flex-wrap:wrap;gap:5px;margin-bottom:16px}
-.sb{font-family:var(--fm);font-size:11px;padding:3px 8px;border-radius:2px}
-.sb.hot{background:rgba(245,196,0,.1);border:1px solid rgba(245,196,0,.3);color:var(--gold)}
-.sb.warm{background:rgba(0,217,111,.08);border:1px solid rgba(0,217,111,.2);color:var(--green)}
-.sb.cool{background:var(--surface2);border:1px solid var(--border);color:var(--muted)}
-.intro-desc{font-size:13px;color:var(--muted);max-width:420px;margin:0 auto 18px;line-height:1.75}.intro-desc strong{color:var(--text)}
-.pl-section{margin-bottom:16px}
-.pl-lbl{font-family:var(--fm);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.pl-row{display:flex;justify-content:center;gap:8px}
-.pc{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:8px 20px;font-family:var(--fd);font-size:16px;letter-spacing:1px;cursor:pointer;color:var(--muted);transition:all .15s}
-.pc:hover,.pc.active{border-color:var(--cnbc-red);color:#fff;background:rgba(204,0,0,.15)}
-.sfx-row{display:flex;justify-content:center;gap:8px;margin-bottom:16px}
-.sfx-btn{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:5px 14px;font-family:var(--fm);font-size:11px;color:var(--muted);cursor:pointer;transition:all .15s}
-.sfx-btn:hover{border-color:var(--gold);color:var(--gold)}.sfx-btn.on{border-color:var(--green);color:var(--green);background:rgba(0,217,111,.08)}
-.start-btn{background:var(--cnbc-red);color:#fff;border:none;border-radius:3px;padding:13px 36px;font-family:var(--fd);font-size:22px;letter-spacing:2px;cursor:pointer;transition:all .18s;display:block;margin:0 auto 10px}
-.start-btn:hover{background:#e60000;transform:scale(1.04);box-shadow:0 0 24px rgba(204,0,0,.4)}
-.disc{font-family:var(--fm);font-size:10px;color:var(--muted)}
-.outcome{display:none;text-align:center;padding:26px 16px}.outcome.show{display:block}
-.out-bug{font-family:var(--fd);font-size:11px;letter-spacing:2px;color:var(--cnbc-red);margin-bottom:8px}
-.out-e{font-size:52px;animation:popIn .5s cubic-bezier(.175,.885,.32,1.275);margin-bottom:10px}
-@keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
-.out-title{font-family:var(--fd);font-size:36px;letter-spacing:2px;margin-bottom:8px}
-.out-title.win{color:var(--gold);text-shadow:0 0 30px rgba(245,196,0,.5)}.out-title.lose{color:var(--red)}.out-title.close{color:var(--text)}
-.out-stat{font-family:var(--fm);font-size:28px;font-weight:700;margin-bottom:6px}.out-stat.pos{color:var(--green)}.out-stat.neg{color:var(--red)}
-.out-sub{color:var(--muted);font-size:13px;max-width:400px;margin:0 auto 18px;line-height:1.7}
-.lb{max-width:340px;margin:0 auto 18px}
-.lb-ttl{font-family:var(--fm);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.lb-row{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;background:var(--surface);border-radius:3px;margin-bottom:4px;font-family:var(--fm);font-size:12px;border:1px solid var(--border)}
-.lb-name{color:var(--text)}.lb-val.pos{color:var(--green)}.lb-val.neg{color:var(--red)}.lb-val.gold{color:var(--gold)}
-.restart-btn{background:var(--gold);color:#000;border:none;border-radius:3px;padding:12px 30px;font-family:var(--fd);font-size:20px;letter-spacing:1px;cursor:pointer;transition:all .15s}
-.restart-btn:hover{background:#ffe033;transform:scale(1.04)}
-</style>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quantum Tendies — CNBC Rags to Riches</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --green:#00d96f;--red:#ff2d55;--gold:#f5c400;--blue:#0072ce;
+      --cnbc-red:#cc0000;--bg:#0a0e1a;--surface:#111827;--surface2:#1c2537;
+      --border:#243047;--text:#eef2ff;--muted:#7a8aa8;
+      --fd:'Anton',sans-serif;--fm:'IBM Plex Mono',monospace;--fb:'Inter',sans-serif;
+    }
+    html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);}
+    #qt{max-width:680px;margin:0 auto;min-height:100vh;background:var(--bg);overflow:hidden}
+    .cnbc-top{background:var(--cnbc-red);padding:4px 14px;display:flex;align-items:center;justify-content:space-between}
+    .cnbc-logo{color:#fff;font-family:var(--fd);font-size:17px;letter-spacing:3px}
+    .cnbc-tag{color:rgba(255,255,255,0.75);font-family:var(--fm);font-size:10px;letter-spacing:1px}
+    .cnbc-live{background:#fff;color:var(--cnbc-red);font-family:var(--fm);font-size:10px;padding:2px 7px;border-radius:2px;animation:blk 1.5s infinite}
+    @keyframes blk{0%,100%{opacity:1}50%{opacity:0.4}}
+    .ticker-bar{background:#000;border-bottom:2px solid var(--cnbc-red);padding:5px 0;overflow:hidden;white-space:nowrap}
+    .ticker-inner{display:inline-block;animation:scrl 22s linear infinite;font-family:var(--fm);font-size:11px}
+    .ticker-inner .sym{color:#fff;font-weight:700}.ticker-inner .up{color:var(--green)}.ticker-inner .dn{color:var(--red)}.ticker-inner .dv{color:var(--muted);margin:0 8px}
+    @keyframes scrl{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    .studio-hdr{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
+    .show-title{font-family:var(--fd);font-size:22px;letter-spacing:2px;color:var(--gold)}.show-title span{color:var(--green)}
+    .nw-block{text-align:right}.nw-lbl{font-family:var(--fm);font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+    .nw-val{font-family:var(--fm);font-size:20px;font-weight:700;color:var(--gold);transition:color .3s}
+    .nw-val.up{color:var(--green);animation:pop .4s ease}.nw-val.dn{color:var(--red);animation:shk .4s ease}
+    @keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+    @keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+    .round-bar{background:#000;border-bottom:1px solid var(--border);padding:6px 16px;display:flex;align-items:center;gap:10px;font-family:var(--fm);font-size:10px;color:var(--muted)}
+    .dots-wrap{display:flex;gap:4px}
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:background .3s}
+    .dot.done{background:var(--green)}.dot.cur{background:var(--gold);animation:bd 1s infinite}
+    @keyframes bd{0%,100%{opacity:1}50%{opacity:0.3}}
+    .p-badge{margin-left:auto;background:var(--cnbc-red);color:#fff;font-family:var(--fd);font-size:12px;letter-spacing:1px;padding:2px 10px;border-radius:2px}
+    .main{padding:14px 16px}
+    .chyron{display:none;background:#000;border-left:4px solid var(--cnbc-red);margin-bottom:12px;border-radius:2px;overflow:hidden;animation:fi .4s ease}
+    .chyron.show{display:block}
+    .chyron-top{background:var(--cnbc-red);padding:2px 10px;font-family:var(--fd);font-size:11px;letter-spacing:1px;color:#fff}
+    .chyron-body{padding:6px 10px;font-family:var(--fm);font-size:12px;color:#fff}
+    @keyframes fi{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+    .pers-bar{display:none;align-items:flex-start;gap:10px;background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--blue);border-radius:4px;padding:10px 12px;margin-bottom:12px}
+    .pers-bar.show{display:flex}
+    .p-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;background:var(--surface)}
+    .p-name{font-family:var(--fm);font-size:10px;color:var(--blue);font-weight:700;text-transform:uppercase;margin-bottom:3px}
+    .p-quote{color:var(--text);font-style:italic;line-height:1.55;font-size:12px}
+    .scene-tag-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+    .scene-tag{font-family:var(--fm);font-size:10px;background:var(--surface2);border:1px solid var(--border);padding:3px 8px;border-radius:2px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+    .narr-box{background:var(--surface);border:1px solid var(--border);border-top:2px solid var(--gold);border-radius:4px;padding:14px 16px;margin-bottom:14px;font-size:14px;line-height:1.75;min-height:80px}
+    .narr-box .big-e{font-size:22px;float:left;margin-right:8px;line-height:1}
+    .port-sum{display:flex;gap:7px;margin-bottom:10px}
+    .ps{flex:1;min-width:0;background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:6px 8px;text-align:center}
+    .ps-lbl{font-family:var(--fm);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .ps-val{font-family:var(--fm);font-size:12px;font-weight:700;color:var(--text)}.ps-val.pos{color:var(--green)}.ps-val.neg{color:var(--red)}
+    .holds{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:3px}
+    .hold{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:4px 8px;font-family:var(--fm);font-size:10px;white-space:nowrap;flex-shrink:0}
+    .hold .ht{color:var(--gold);font-weight:700}.hold .hp{margin-left:4px}.hold .hp.pos{color:var(--green)}.hold .hp.neg{color:var(--red)}
+    .choices-lbl{font-family:var(--fm);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+    .choices-grid{display:grid;gap:7px}
+    .cb{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:11px 13px;text-align:left;cursor:pointer;color:var(--text);font-family:var(--fb);font-size:13px;line-height:1.4;display:flex;align-items:flex-start;gap:9px;transition:all .15s;position:relative;overflow:hidden}
+    .cb::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--border);transition:background .15s}
+    .cb:hover{border-color:var(--gold);background:var(--surface2);transform:translateX(2px)}.cb:hover::before{background:var(--gold)}
+    .cb:disabled{opacity:.35;cursor:not-allowed;transform:none}
+    .c-ticker{font-family:var(--fm);font-size:11px;font-weight:700;background:rgba(245,196,0,.1);color:var(--gold);border:1px solid rgba(245,196,0,.25);padding:2px 6px;border-radius:2px;white-space:nowrap;flex-shrink:0;margin-top:1px}
+    .c-txt{flex:1}.c-txt strong{color:#fff}
+    .c-risk{font-size:10px;font-family:var(--fm);white-space:nowrap;flex-shrink:0;padding:2px 6px;border-radius:2px;margin-top:1px}
+    .c-risk.high{background:rgba(255,45,85,.15);color:var(--red);border:1px solid rgba(255,45,85,.25)}
+    .c-risk.medium{background:rgba(245,196,0,.1);color:var(--gold);border:1px solid rgba(245,196,0,.2)}
+    .c-risk.low{background:rgba(0,217,111,.1);color:var(--green);border:1px solid rgba(0,217,111,.2)}
+    .intro{text-align:center;padding:22px 16px 18px}
+    .intro-logo{font-family:var(--fd);font-size:48px;letter-spacing:3px;color:var(--gold);text-shadow:0 0 40px rgba(245,196,0,.25);line-height:1;margin-bottom:4px}
+    .intro-sub{font-family:var(--fd);font-size:15px;letter-spacing:3px;color:var(--cnbc-red);margin-bottom:5px}
+    .intro-net{font-family:var(--fm);font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:14px}
+    .stock-board{display:flex;justify-content:center;flex-wrap:wrap;gap:5px;margin-bottom:16px}
+    .sb{font-family:var(--fm);font-size:11px;padding:3px 8px;border-radius:2px}
+    .sb.hot{background:rgba(245,196,0,.1);border:1px solid rgba(245,196,0,.3);color:var(--gold)}
+    .sb.warm{background:rgba(0,217,111,.08);border:1px solid rgba(0,217,111,.2);color:var(--green)}
+    .sb.cool{background:var(--surface2);border:1px solid var(--border);color:var(--muted)}
+    .intro-desc{font-size:13px;color:var(--muted);max-width:420px;margin:0 auto 18px;line-height:1.75}.intro-desc strong{color:var(--text)}
+    .pl-section{margin-bottom:16px}
+    .pl-lbl{font-family:var(--fm);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+    .pl-row{display:flex;justify-content:center;gap:8px}
+    .pc{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:8px 20px;font-family:var(--fd);font-size:16px;letter-spacing:1px;cursor:pointer;color:var(--muted);transition:all .15s}
+    .pc:hover,.pc.active{border-color:var(--cnbc-red);color:#fff;background:rgba(204,0,0,.15)}
+    .sfx-row{display:flex;justify-content:center;gap:8px;margin-bottom:16px}
+    .sfx-btn{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:5px 14px;font-family:var(--fm);font-size:11px;color:var(--muted);cursor:pointer;transition:all .15s}
+    .sfx-btn:hover{border-color:var(--gold);color:var(--gold)}.sfx-btn.on{border-color:var(--green);color:var(--green);background:rgba(0,217,111,.08)}
+    .start-btn{background:var(--cnbc-red);color:#fff;border:none;border-radius:3px;padding:13px 36px;font-family:var(--fd);font-size:22px;letter-spacing:2px;cursor:pointer;transition:all .18s;display:block;margin:0 auto 10px}
+    .start-btn:hover{background:#e60000;transform:scale(1.04);box-shadow:0 0 24px rgba(204,0,0,.4)}
+    .disc{font-family:var(--fm);font-size:10px;color:var(--muted)}
+    .outcome{display:none;text-align:center;padding:26px 16px}.outcome.show{display:block}
+    .out-bug{font-family:var(--fd);font-size:11px;letter-spacing:2px;color:var(--cnbc-red);margin-bottom:8px}
+    .out-e{font-size:52px;animation:popIn .5s cubic-bezier(.175,.885,.32,1.275);margin-bottom:10px}
+    @keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
+    .out-title{font-family:var(--fd);font-size:36px;letter-spacing:2px;margin-bottom:8px}
+    .out-title.win{color:var(--gold);text-shadow:0 0 30px rgba(245,196,0,.5)}.out-title.lose{color:var(--red)}.out-title.close{color:var(--text)}
+    .out-stat{font-family:var(--fm);font-size:28px;font-weight:700;margin-bottom:6px}.out-stat.pos{color:var(--green)}.out-stat.neg{color:var(--red)}
+    .out-sub{color:var(--muted);font-size:13px;max-width:400px;margin:0 auto 18px;line-height:1.7}
+    .lb{max-width:340px;margin:0 auto 18px}
+    .lb-ttl{font-family:var(--fm);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+    .lb-row{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;background:var(--surface);border-radius:3px;margin-bottom:4px;font-family:var(--fm);font-size:12px;border:1px solid var(--border)}
+    .lb-name{color:var(--text)}.lb-val.pos{color:var(--green)}.lb-val.neg{color:var(--red)}.lb-val.gold{color:var(--gold)}
+    .restart-btn{background:var(--gold);color:#000;border:none;border-radius:3px;padding:12px 30px;font-family:var(--fd);font-size:20px;letter-spacing:1px;cursor:pointer;transition:all .15s}
+    .restart-btn:hover{background:#ffe033;transform:scale(1.04)}
+    ::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+  </style>
+</head>
+<body>
 <div id="qt">
   <div class="cnbc-top">
     <div class="cnbc-logo">CNBC</div>
     <div class="cnbc-tag">FIRST IN BUSINESS WORLDWIDE</div>
-    <div class="cnbc-live">● LIVE</div>
+    <div class="cnbc-live">&#9679; LIVE</div>
   </div>
   <div class="ticker-bar"><div class="ticker-inner" id="tickerEl"></div></div>
   <div class="studio-hdr">
@@ -124,15 +130,15 @@
     <div class="intro" id="introScreen">
       <div class="intro-logo">QUANTUM TENDIES</div>
       <div class="intro-sub">RAGS TO RICHES SIMULATOR</div>
-      <div class="intro-net">A CNBC MARKETS EXPERIENCE · NOT FINANCIAL ADVICE</div>
+      <div class="intro-net">A CNBC MARKETS EXPERIENCE &middot; NOT FINANCIAL ADVICE</div>
       <div class="stock-board">
-        <span class="sb hot">AMD 🔴</span><span class="sb hot">NVDA 💚</span><span class="sb warm">HIMS 💊</span>
-        <span class="sb hot">TSLA 🔥</span><span class="sb warm">NOW ⚙️</span><span class="sb cool">HOOD 🏹</span>
-        <span class="sb hot">IREN ⚡</span><span class="sb cool">VIX 🌪️</span><span class="sb warm">SOFI 🏦</span><span class="sb cool">DOGE 🐕</span>
+        <span class="sb hot">AMD &#128308;</span><span class="sb hot">NVDA &#128154;</span><span class="sb warm">HIMS &#128138;</span>
+        <span class="sb hot">TSLA &#128293;</span><span class="sb warm">NOW &#9881;&#65039;</span><span class="sb cool">HOOD &#127993;</span>
+        <span class="sb hot">IREN &#9889;</span><span class="sb cool">VIX &#127754;&#65039;</span><span class="sb warm">SOFI &#127974;</span><span class="sb cool">DOGE &#128021;</span>
       </div>
       <div class="intro-desc">Start with <strong>$10,000</strong> and absolutely no business managing money.<br>
-      Navigate <strong>12 rounds</strong> of chaos, CNBC hot takes &amp; degen picks.<br>
-      Hit <strong>$1,000,000</strong> in Quantum Tendies — or get margin called. 🍗</div>
+      Navigate <strong>12 rounds</strong> of CNBC chaos &amp; degen stock picks.<br>
+      Hit <strong>$1,000,000</strong> in Quantum Tendies &mdash; or get margin called. &#127831;</div>
       <div class="pl-section">
         <div class="pl-lbl">WHO'S ON DESK TODAY?</div>
         <div class="pl-row">
@@ -141,75 +147,77 @@
           <div class="pc"        id="pJoel"   onclick="selectP('Joel')">JOEL</div>
         </div>
       </div>
-      <div class="sfx-row"><div class="sfx-btn on" id="sfxToggle" onclick="toggleSfx()">🔊 SOUND ON</div></div>
-      <button class="start-btn" onclick="startGame()">OPEN THE MARKET 🔔</button>
-      <div class="disc">Pass the screen after each run · Leaderboard tracks all three</div>
+      <div class="sfx-row"><div class="sfx-btn on" id="sfxToggle" onclick="toggleSfx()">&#128266; SOUND ON</div></div>
+      <button class="start-btn" onclick="startGame()">OPEN THE MARKET &#128239;</button>
+      <div class="disc">Pass the screen after each run &middot; Leaderboard tracks all three</div>
     </div>
     <div id="gameScreen" style="display:none">
       <div class="round-bar">
-        <span>ROUND</span>
-        <div class="dots-wrap" id="dotWrap"></div>
-        <span id="roundLbl">1/12</span>
-        <div class="p-badge" id="pBadge">RYAN</div>
+        <span>ROUND</span><div class="dots-wrap" id="dotWrap"></div>
+        <span id="roundLbl">1/12</span><div class="p-badge" id="pBadge">RYAN</div>
       </div>
       <div class="main">
         <div class="port-sum" id="portSum"></div>
         <div class="holds" id="holdsStrip"></div>
-        <div class="chyron" id="chyron"><div class="chyron-top">🔴 BREAKING NEWS</div><div class="chyron-body" id="chyronBody"></div></div>
+        <div class="chyron" id="chyron"><div class="chyron-top">&#128308; BREAKING NEWS</div><div class="chyron-body" id="chyronBody"></div></div>
         <div class="pers-bar" id="persBar">
-          <div class="p-avatar" id="pAvatar">👔</div>
+          <div class="p-avatar" id="pAvatar">&#128084;</div>
           <div><div class="p-name" id="pName"></div><div class="p-quote" id="pQuote"></div></div>
         </div>
         <div class="scene-tag-row"><div class="scene-tag" id="sceneTag">MARKET EVENT</div></div>
-        <div class="narr-box" id="narrBox"><div class="lds"><span></span><span></span><span></span></div></div>
-        <div class="choices-lbl">YOUR MOVE — CHOOSE OR LOSE</div>
+        <div class="narr-box" id="narrBox"></div>
+        <div class="choices-lbl">YOUR MOVE &mdash; CHOOSE OR LOSE</div>
         <div class="choices-grid" id="choicesGrid"></div>
       </div>
     </div>
     <div class="outcome" id="outcomeScreen">
-      <div class="out-bug" id="outBug">MARKETS CLOSED</div>
-      <div class="out-e" id="outE"></div>
-      <div class="out-title" id="outTitle"></div>
-      <div class="out-stat" id="outStat"></div>
-      <div class="out-sub" id="outSub"></div>
-      <div class="lb" id="lb"></div>
-      <button class="restart-btn" onclick="resetGame()">NEXT TRADER 🔄</button>
+      <div class="out-bug" id="outBug"></div><div class="out-e" id="outE"></div>
+      <div class="out-title" id="outTitle"></div><div class="out-stat" id="outStat"></div>
+      <div class="out-sub" id="outSub"></div><div class="lb" id="lb"></div>
+      <button class="restart-btn" onclick="resetGame()">NEXT TRADER &#128260;</button>
     </div>
   </div>
 </div>
-
 <script>
 const TICKERS=[['AMD','168.40','+6.9%','up'],['NVDA','890.50','+12.4%','up'],['HIMS','42.10','+18.7%','up'],['TSLA','248.77','+8.3%','up'],['NOW','812.30','+4.2%','up'],['HOOD','19.88','-3.2%','dn'],['IREN','14.20','+22.0%','up'],['VIX','28.50','+44.0%','up'],['SOFI','9.12','+6.9%','up'],['DOGE','0.42','+69%','up'],['SPY','495.30','-0.8%','dn'],['RIVN','11.20','-12%','dn'],['BB','2.40','+3.1%','up'],['NOK','3.81','+1.2%','up']];
 
-const SYS=`You are the narrator AND CNBC personality for "QUANTUM TENDIES" — a WSB choose-your-own-path stock market game on a fake CNBC broadcast.
+const PERSONALITIES=[
+  {name:'Jim Cramer',emoji:'📣',quotes:["BOOYAH! This is EXACTLY the setup I told you about on Mad Money — DO YOUR HOMEWORK people!","I've been pounding the table on this all week. BUY BUY BUY before the hedge funds front-run you AGAIN.","This is what separates the winners from the losers. Are you a TRADER or a paper-handed TOURIST?"]},
+  {name:'Josh Brown',emoji:'🎙️',quotes:["Look, I've been saying this for months on the podcast — the setup here is textbook. Classic regime change.","The retail army doesn't understand what's happening under the hood. We do. Position accordingly.","This is why you don't YOLO your entire book at once. Sizing matters. But also... this rips."]},
+  {name:'Stephanie Link',emoji:'📊',quotes:["I own this name. Have owned it since $40. My price target is $95 and I'm not flinching.","The fundamentals here are being completely ignored by the market. That's your opportunity.","I want to see one more quarter before adding. But if you're not in this name, you're leaving money on the table."]},
+  {name:'Scott Wapner',emoji:'⚖️',quotes:["The call of the day — and I've got three of the sharpest traders on the desk — is this is a must-own. What's YOUR trade?","My sources at two major funds are telling me the smart money is quietly loading up. That's the tell.","Fast Money, Halftime Report, doesn't matter — every desk is watching this level. Don't blink."]},
+  {name:'Melissa Lee',emoji:'🌙',quotes:["Options market is screaming. The implied vol here is telling a story that the stock price hasn't caught up to yet.","After hours, the real game starts. While retail sleeps, the algos are repositioning. You've been warned.","I've seen this pattern before. It either goes to zero or triples. Welcome to Fast Money."]},
+  {name:'Sara Eisen',emoji:'🔍',quotes:["But what does the macro data actually say? Because I'm looking at the Fed's balance sheet and I'm not convinced.","Has anyone stress-tested this thesis against a 50 basis point hike? I'm just asking the question nobody wants to ask.","The CEO told me directly the fundamentals are strong. I asked him three follow-ups. He didn't love it."]},
+  {name:'Carl Quintanilla',emoji:'☕',quotes:["So we're watching this develop in real time this morning — and I have to say, I've never seen anything quite like it.","Just to set the table here — we have a market that's doing... this. And our experts say it's completely normal. Sure.","Breaking from Squawk Box — the futures are pointing to chaos and the espresso machine just broke. It's that kind of morning."]},
+  {name:'Andrew Ross Sorkin',emoji:'📰',quotes:["I spoke with three senior partners at major firms this morning. None of them would go on record, but the consensus is: unprecedented.","This isn't just a market story. This is a story about power, capital, and who controls the narrative. DealBook is on it.","Let me be very clear — what's happening here has enormous implications for the regulatory landscape going forward."]},
+  {name:'Becky Quick',emoji:'🧓',quotes:["I texted Warren about this last night. He said, and I quote, 'I don't understand it, but Charlie would have loved it.'","Berkshire has held cash for situations exactly like this. Whether this is that situation is the $64,000 question.","The Oracle doesn't trade meme stocks. But if he did, something tells me he'd have a 10-year horizon on it."]},
+  {name:'David Faber',emoji:'🕵️',quotes:["My sources — and I have two separate sources on this — are telling me a major position was unwound quietly last night.","I can confirm the deal talks are real. The numbers don't work yet, but the interest is there. Watch this space.","What I'm hearing from bankers is that this move was not random. Someone knew something. The SEC is 3 years from caring."]},
+  {name:'Joe Kernen',emoji:'☕',quotes:["I'm just saying — when the government starts picking winners and losers in the market, don't be surprised by what happens next.","Nobody asked me, but this whole thing smells like regulatory overreach dressed up as investor protection. I'm just saying.","The free market is trying to tell you something. Are you listening? Or are you waiting for a bureaucrat to explain it?"]},
+  {name:'Kelly Evans',emoji:'📈',quotes:["CPI came in hot, PCE is sticky, and the jobs number was a beat. The Fed has absolutely no cover to cut. Buckle up.","I want to contextualize this within the broader macro framework — because what looks like a stock story is really a rates story.","The Exchange has been tracking this divergence for six weeks. Today, the market is finally catching up to what the data said."]}
+];
 
-TONE: Hilarious, unhinged, meme-heavy WSB energy. Use authentic slang: tendies, diamond hands, bag holder, paper hands, loss porn, theta gang, yolo, apes together strong, regard (affectionate), hedge fund clowns, free money printer, margin call roulette, dark pool manipulation, IV crush, infinite money glitch, smooth-brained, SEC is napping, Fed is not your friend, buy the dip (it's a cliff), stonks only go up.
+const ROUND_POOL=[
+  {tag:'FIRST LOGIN',emoji:'📱',chyron:'BREAKING: Robinhood servers buckling under retail surge',narrative:"You just downloaded Robinhood at 2am after watching a YouTube video about passive income. Your rent money is now seed capital. The apes are watching. 🦍",choices:[{stock:'NVDA',label:'Ride the AI hype',desc:"AI is literally printing money — just ask anyone who learned to code in 2023",risk:'medium',mr:[0.6,2.2]},{stock:'DOGE',label:'Meme it to the moon',desc:"Your cousin made $4,000 on this. He also owns a flat earth documentary subscription.",risk:'high',mr:[0.1,3.8]},{stock:'SOFI',label:'Play it safe-ish',desc:"Fintech for normal people who think Venmo is a personality trait",risk:'low',mr:[0.8,1.3]}]},
+  {tag:'REDDIT RABBIT HOLE',emoji:'🐇',chyron:'WSB post with 47K upvotes: "This is the way"',narrative:"You found a DD post with a rocket emoji in the title. The author has a loss porn flair and 3,000 karma. Your hands are starting to sweat. 💎",choices:[{stock:'GME',label:'Diamond hands activated',desc:"The hedge funds are short. YOU are long. This is class warfare with a brokerage account.",risk:'high',mr:[0.05,3.5]},{stock:'AMD',label:'Chips are the new oil',desc:"Lisa Su is literally building the future and you can own a piece for less than a car payment",risk:'medium',mr:[0.55,1.9]},{stock:'HOOD',label:'Buy the platform itself',desc:"If degenerates are gambling, own the casino. Galaxy-brained or just brained?",risk:'medium',mr:[0.5,1.8]}]},
+  {tag:'FED SPEAKS',emoji:'🏛️',chyron:'POWELL: "We remain data dependent" (market explodes anyway)',narrative:"Jerome Powell said absolutely nothing new in the most boring possible way and the market moved 3% in both directions simultaneously. The Fed is not your friend. 📉📈",choices:[{stock:'VIX',label:'Buy the fear',desc:"VIX calls are free money when Powell opens his mouth near a microphone",risk:'high',mr:[0.2,3.2]},{stock:'NOW',label:'Enterprise software dodge',desc:"Enterprises still pay their SaaS subscriptions during rate hikes. Unlike your Netflix.",risk:'low',mr:[0.78,1.32]},{stock:'TSLA',label:'Elon immune to macro',desc:"Macro is for economists. Elon answers to no central bank.",risk:'high',mr:[0.1,3.0]}]},
+  {tag:'CRAMER REVERSAL',emoji:'📣',chyron:'Cramer bullish on sector — traders brace for impact',narrative:"Jim Cramer just pounded the table on your exact position on national television. Statistically, this is bearish. Your portfolio is now a contrarian indicator. 🐻",choices:[{stock:'SPY',label:'SPY puts as insurance',desc:"The Cramer Inverse ETF doesn't exist but SPY puts are the next best thing",risk:'high',mr:[0.15,3.4]},{stock:'AMD',label:'Stay the course',desc:"Maybe this time Cramer is actually right. The broken clock thesis.",risk:'medium',mr:[0.55,1.85]},{stock:'SOFI',label:'Rotate quietly',desc:"Slip out of the Cramer blast radius before the retail herd notices",risk:'low',mr:[0.75,1.3]}]},
+  {tag:'ELON TWEETS',emoji:'🐦',chyron:'BREAKING: Billionaire tweets single punctuation mark — markets react',narrative:"A billionaire with 180 million followers tweeted a punctuation mark at 3am. Your entire sector is now up 18%. The SEC will investigate this in 2027. 🚀",choices:[{stock:'DOGE',label:'Ride the tweet wave',desc:"He did it before, he did it again, he will do it again, you will be surprised again",risk:'high',mr:[0.1,3.8]},{stock:'TSLA',label:'The OG meme stock',desc:"Behind every meme stock is a real company. Sometimes. Kind of.",risk:'medium',mr:[0.5,2.1]},{stock:'IREN',label:'Crypto infrastructure play',desc:"When meme coins pump, miners print. Simple math for smooth brains.",risk:'medium',mr:[0.45,2.0]}]},
+  {tag:'DARK POOL ALERT',emoji:'🌊',chyron:'Unusual options activity detected — source unknown',narrative:"Someone bought $40M in calls 10 minutes before the announcement. The SEC calls this 'routine market activity.' You call it cheating. Both are correct. 🎰",choices:[{stock:'NVDA',label:'Piggyback the whales',desc:"If the smart money is in, maybe follow them in before the dumb money notices",risk:'medium',mr:[0.6,2.3]},{stock:'VIX',label:'Hedge the manipulation',desc:"You can't beat dark pools but you can buy their chaos as a product",risk:'high',mr:[0.2,2.8]},{stock:'NOW',label:'Stay boring and rich',desc:"ServiceNow doesn't get dark-pooled. It just compounds. Boring wins.",risk:'low',mr:[0.8,1.35]}]},
+  {tag:'MARGIN CALL CLOSE CALL',emoji:'🚨',chyron:'Margin calls sweep retail accounts — brokers overwhelmed',narrative:"Your account briefly went negative at 9:34am and you experienced what medical professionals call 'a learning moment.' The market giveth and the market taketh. 💸",choices:[{stock:'TSLA',label:'Double down or die',desc:"You've already lost 40%. What's another 40%? This is called averaging down.",risk:'high',mr:[0.05,3.6]},{stock:'HIMS',label:'Pivot to healthcare',desc:"Men are paying $200/month for hair pills. The TAM is literally every man's bathroom mirror.",risk:'medium',mr:[0.55,2.0]},{stock:'SOFI',label:'Live to trade another day',desc:"Capital preservation is not weakness. It's strategy. Very unsexy strategy.",risk:'low',mr:[0.78,1.3]}]},
+  {tag:'INFLATION SPIKE',emoji:'💰',chyron:'CPI SHOCKS: Everything costs more, economists surprised (again)',narrative:"Eggs are $9. Gas is $6. Your avocado toast is being discussed in a congressional hearing. The Fed says this is 'transitory' for the fourth consecutive year. 📊",choices:[{stock:'AMD',label:'Tech survives inflation',desc:"Chips don't care about egg prices. Data centers keep building regardless of the CPI.",risk:'medium',mr:[0.5,2.0]},{stock:'IREN',label:'Bitcoin as inflation hedge',desc:"Every boomer said gold. Every degen said Bitcoin. One of them has laser eyes.",risk:'high',mr:[0.1,3.5]},{stock:'VIX',label:'Volatility is the product',desc:"When everything is chaos, buy the chaos itself. VIX calls are basically a hedge on reality.",risk:'high',mr:[0.15,3.2]}]},
+  {tag:'SHORT SQUEEZE',emoji:'🍋',chyron:'Short interest hits 140% — float fully shorted twice over',narrative:"The short sellers have sold more shares than exist. This is called a 'unique opportunity' by people who believe in market justice and a 'controlled demolition' by everyone else. ⚡",choices:[{stock:'GME',label:'Short squeeze lottery',desc:"The math says this could 10x. The math also said 2008 mortgages were AAA rated.",risk:'high',mr:[0.05,4.0]},{stock:'HOOD',label:'Trade the trading platform',desc:"When retail volume spikes, Robinhood prints. Own the toll road.",risk:'medium',mr:[0.5,1.9]},{stock:'NVDA',label:'Stay in the quality lane',desc:"Short squeezes are for degenerates. You're a sophisticated degen who owns NVDA.",risk:'medium',mr:[0.6,1.8]}]},
+  {tag:'ANALYST UPGRADE',emoji:'🏦',chyron:'Goldman raises price target to $500 — from $180 last week',narrative:"Goldman Sachs raised their price target on a stock that already ran 200%. They now have a 'conviction buy' on something you bought at the bottom. They're getting in after you. 🤡",choices:[{stock:'AMD',label:'Ride the analyst wave',desc:"When Goldman upgrades, the index funds rebalance. Momentum is momentum.",risk:'medium',mr:[0.55,2.0]},{stock:'HIMS',label:'Find the next upgrade',desc:"HIMS hasn't been discovered by Goldman yet. That's the opportunity.",risk:'high',mr:[0.2,3.2]},{stock:'NOW',label:'Compound quietly',desc:"ServiceNow doesn't need Goldman. It just grows 20% per year like a boring legend.",risk:'low',mr:[0.8,1.35]}]},
+  {tag:'CONGRESS INVESTIGATES',emoji:'🏛️',chyron:'BREAKING: Senate subcommittee demands answers from Reddit',narrative:"Congress is holding a hearing about meme stocks. The average age of the committee is 74. They keep asking the CEO of Reddit to explain what 'diamond hands' means. Democracy. 🦅",choices:[{stock:'HOOD',label:'Regulation is priced in',desc:"They already restricted trading once. The second time will be different. (It won't.)",risk:'high',mr:[0.1,3.0]},{stock:'NVDA',label:'Too big to regulate',desc:"NVDA has $2T market cap and owns the AI supply chain. Congress needs their chips.",risk:'medium',mr:[0.6,2.0]},{stock:'SPY',label:'Bet on American dysfunction',desc:"The market always recovers. Even from Congress. Especially from Congress.",risk:'low',mr:[0.8,1.32]}]},
+  {tag:'IPO FRENZY',emoji:'🎉',chyron:'New IPO pops 300% on debut — analysts call it "fairly valued"',narrative:"A company that has never made a profit just IPO'd at a $40B valuation. The bankers are celebrating. The S-1 uses the word 'disruptive' 47 times. You want in. 🎰",choices:[{stock:'HOOD',label:'Buy the new casino',desc:"Robinhood made itself public so retail traders could own the casino that beats them",risk:'high',mr:[0.2,3.0]},{stock:'SOFI',label:'Fintech consolidation play',desc:"Every new fintech IPO validates the space. SOFI is the category winner.",risk:'medium',mr:[0.55,1.85]},{stock:'NOW',label:'Skip the hype, own the compounder',desc:"ServiceNow was a boring IPO once. Now it's a boring $200B company.",risk:'low',mr:[0.8,1.3]}]},
+  {tag:'SECTOR ROTATION',emoji:'🔄',chyron:'Smart money rotating out of tech — or into tech — analysts disagree',narrative:"The hedge funds are supposedly selling tech and buying energy. Or the opposite. The Bloomberg terminal says both things simultaneously. The market is a riddle wrapped in a fee structure. 🌀",choices:[{stock:'AMD',label:'Tech rotation beneficiary',desc:"When money rotates back into semis, AMD is usually the first stop",risk:'medium',mr:[0.5,2.0]},{stock:'IREN',label:'Energy-meets-crypto play',desc:"IREN is literally an energy company that mines Bitcoin. Two sectors at once.",risk:'high',mr:[0.2,3.2]},{stock:'VIX',label:'Trade the confusion itself',desc:"When nobody knows what's rotating where, volatility is the only honest product",risk:'high',mr:[0.15,2.8]}]},
+  {tag:'OPTIONS EXPIRY',emoji:'⏰',chyron:'Options expiry Friday — $2.3 trillion in contracts expire today',narrative:"It's options expiry Friday and the gamma dealers are running their hedges, causing the market to move in ways that technically aren't manipulation but definitely feel like it. 🎲",choices:[{stock:'NVDA',label:'Pin the strike price',desc:"Max pain theory says NVDA pins at $890. You have no idea what that means but it sounds smart.",risk:'medium',mr:[0.55,1.9]},{stock:'TSLA',label:'0DTE lottery ticket',desc:"Zero days to expiration options are basically scratch tickets that sometimes pay for a house",risk:'high',mr:[0.05,4.5]},{stock:'SPY',label:'Ride the gamma squeeze',desc:"Index options expiry always juices the underlying. Boring but reliable.",risk:'low',mr:[0.78,1.35]}]},
+  {tag:'EARNINGS ROULETTE',emoji:'🎯',chyron:'Earnings season: companies beat estimates they whispered to analysts',narrative:"It's earnings season, where companies spend three months setting low expectations and then 'beat' by a penny. The market will react to this performance art by moving 15% in a direction. 📊",choices:[{stock:'NVDA',label:'Earnings always beat',desc:"NVDA has beaten earnings 12 quarters in a row. Past performance is not indicative of future results, but also it is.",risk:'medium',mr:[0.5,2.3]},{stock:'HIMS',label:'Small cap earnings pop',desc:"HIMS beats and nobody's watching. That gap up is yours if you're positioned.",risk:'high',mr:[0.2,3.5]},{stock:'NOW',label:'Miss-proof enterprise',desc:"ServiceNow sells multi-year contracts. Their revenue is more predictable than the sun rising.",risk:'low',mr:[0.82,1.33]}]},
+  {tag:'MIDNIGHT YOLO',emoji:'🌙',chyron:'Asian markets signal chaos — US futures limit down',narrative:"It's 11:58pm. Futures are red. You're making portfolio decisions by phone screen light while your family sleeps. The rat race is optional if you make the right call tonight. 🌙",choices:[{stock:'TSLA',label:'Overnight YOLO calls',desc:"0DTE calls on TSLA while the market is closed is technically legal. Technically.",risk:'high',mr:[0.05,4.0]},{stock:'IREN',label:"Crypto doesn't sleep",desc:"Bitcoin mining revenue hits differently at midnight. IREN never closes.",risk:'high',mr:[0.1,3.5]},{stock:'VIX',label:'Hedge the unknown',desc:"You don't know what tomorrow brings. VIX does. Buy the uncertainty.",risk:'medium',mr:[0.4,2.2]}]},
+  {tag:'ALL IN MOMENT',emoji:'💎',chyron:'Historic volatility — once-in-a-decade setup says analyst',narrative:"This is it. The moment. Your entire journey has led here. The hedge funds are sweating. The apes are mobilizing. Diamond hands or paper hands — there is no middle ground. 💎🙌",choices:[{stock:'NVDA',label:'Bet on the AI future',desc:"NVDA is the shovel company in a gold rush. Every AI needs chips. Every chip comes from NVDA.",risk:'medium',mr:[0.5,2.5]},{stock:'GME',label:'One final squeeze',desc:"The shorts never covered. The float is still locked. This is the moment they feared.",risk:'high',mr:[0.02,5.0]},{stock:'AMD',label:'The sleeper awakens',desc:"Lisa Su has been quietly setting up the greatest comeback in semiconductor history.",risk:'medium',mr:[0.55,2.3]}]},
+  {tag:'QUANTUM TENDIES OR BUST',emoji:'🍗',chyron:'MARKETS AT CRITICAL JUNCTURE — everything on the line',narrative:"One move stands between you and quantum tendies or a cautionary tale on r/wallstreetbets. The entire trading floor is watching. CNBC cut to commercial. This is the trade. 🚀",choices:[{stock:'TSLA',label:'Elon to the moon',desc:"One tweet. One earnings beat. One Robo Taxi event. Any of these could 3x you overnight.",risk:'high',mr:[0.1,3.8]},{stock:'NVDA',label:'Diamond hands on quality',desc:"When in doubt, the company that makes all the AI chips usually wins.",risk:'medium',mr:[0.5,2.2]},{stock:'HIMS',label:'Healthcare YOLO',desc:"Men's health is a $50B market and HIMS owns the checkout page. Untapped.",risk:'high',mr:[0.2,3.5]}]},
+];
 
-CNBC PERSONALITY ROTATION — one per round, never repeat back-to-back:
-- Jim Cramer: CAPS LOCK, BOOYAH!, contrarian indicator jokes, DO YOUR HOMEWORK, BUY BUY BUY
-- Josh Brown: Ritholtz Wealth, podcast bro, "I've been saying this for months", confident declarations
-- Stephanie Link: measured, data-driven, "I own this name", always has a price target
-- Scott Wapner (The Judge): Halftime Report urgency, "the call of the day", "what's your TRADE?"
-- Melissa Lee: Fast Money, late-night chaos, loves options
-- Sara Eisen: calm skeptic, asks the macro question no one wants answered
-- Carl Quintanilla: morning anchor staying professional as everything burns
-- Andrew Ross Sorkin: DealBook gravitas completely at odds with the chaos
-- Becky Quick: "I texted Buffett about this", old-money wisdom
-- David Faber: "My sources tell me...", M&A whisperer
-- Joe Kernen: Squawk Box curmudgeon, anti-regulation, "I'm just saying..."
-- Kelly Evans: macro data obsessed, CPI and jobs numbers at the ready
-
-SOCIAL COMMENTARY as absurdist jokes: retail vs hedge funds, Fed printer go brrr, Main St vs Wall St, billionaires tweeting stocks, algorithms eating retail, SEC 3 years late, 9-to-5 optional if you YOLO right.
-
-STOCKS: AMD, NVDA, HIMS, TSLA, NOW, HOOD, IREN, VIX, SOFI, DOGE, SPY puts, RIVN, BB, NOK, LCID
-
-Respond ONLY in raw JSON, no markdown, no fences, no preamble:
-{"scene_tag":"2-3 WORD CAPS","scene_emoji":"emoji","narrative":"2-3 punchy WSB sentences referencing past moves","market_event":"chyron headline or null","personality":{"name":"Full Name","emoji":"emoji","quote":"1-2 sentences in their voice"},"choices":[{"stock":"TICKER","label":"label","description":"funny slang description","risk":"high|medium|low","multiplier_range":[min,max]},{"stock":"TICKER","label":"label","description":"funny slang description","risk":"high|medium|low","multiplier_range":[min,max]},{"stock":"TICKER","label":"label","description":"funny slang description","risk":"high|medium|low","multiplier_range":[min,max]}]}
-multiplier_range: high=[0.05,3.8] medium=[0.5,2.0] low=[0.75,1.35]. Escalate to apocalyptic YOLO energy by round 12.`;
-
-let state={netWorth:10000,round:0,maxRounds:12,history:[],holdings:[],player:'Ryan',scores:[]};
-let pending=null,busy=false,sfxOn=true,audioCtx=null;
-
+let sfxOn=true,audioCtx=null;
 function getAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
 function playTone(type){
   if(!sfxOn)return;
@@ -224,76 +232,64 @@ function playTone(type){
   }catch(e){}
 }
 function toggleSfx(){sfxOn=!sfxOn;const b=document.getElementById('sfxToggle');b.textContent=sfxOn?'🔊 SOUND ON':'🔇 SOUND OFF';b.className='sfx-btn'+(sfxOn?' on':'');if(sfxOn)playTone('bell');}
+
+let state={netWorth:10000,round:0,maxRounds:12,holdings:[],player:'Ryan',scores:[]};
+let DECK=[],lastPersonIdx=-1;
+
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function buildDeck(){
+  const first=ROUND_POOL.find(r=>r.tag==='FIRST LOGIN');
+  const last=ROUND_POOL.find(r=>r.tag==='QUANTUM TENDIES OR BUST');
+  const allIn=ROUND_POOL.find(r=>r.tag==='ALL IN MOMENT');
+  const middle=shuffle(ROUND_POOL.filter(r=>r!==first&&r!==last&&r!==allIn));
+  return [first,...middle.slice(0,8),allIn,...middle.slice(8,9),last].slice(0,12);
+}
+
+function pickPersonality(){let idx;do{idx=Math.floor(Math.random()*PERSONALITIES.length);}while(idx===lastPersonIdx);lastPersonIdx=idx;return PERSONALITIES[idx];}
 function buildTicker(){const d=[...TICKERS,...TICKERS];document.getElementById('tickerEl').innerHTML=d.map(([s,p,c,dir])=>`<span class="dv">|</span><span class="sym">${s}</span> ${p} <span class="${dir}">${c}</span>`).join('');}
 function fmt(n){if(n>=1e6)return'$'+(n/1e6).toFixed(2)+'M';if(n>=1000)return'$'+Math.round(n).toLocaleString();return'$'+Math.round(n);}
 function selectP(name){state.player=name;['Ryan','Franco','Joel'].forEach(p=>{const el=document.getElementById('p'+p);if(el)el.className='pc'+(p===name?' active':'');});}
 function updateNW(val,dir){const el=document.getElementById('nwEl');el.textContent=fmt(val);el.className='nw-val '+(dir==='up'?'up':dir==='dn'?'dn':'');setTimeout(()=>el.className='nw-val',600);}
 function renderProgress(){const dw=document.getElementById('dotWrap');dw.innerHTML='';for(let i=0;i<state.maxRounds;i++){const d=document.createElement('div');d.className='dot'+(i<state.round?' done':i===state.round?' cur':'');dw.appendChild(d);}document.getElementById('roundLbl').textContent=(state.round+1)+'/'+state.maxRounds;document.getElementById('pBadge').textContent=state.player.toUpperCase();}
-function renderPortSum(){const total=state.holdings.reduce((a,h)=>a+h.pnl,0);const avg=state.holdings.length?total/state.holdings.length:0;const best=state.holdings.length?state.holdings.reduce((a,b)=>a.pnl>b.pnl?a:b):null;document.getElementById('portSum').innerHTML=`<div class="ps"><div class="ps-lbl">CAPITAL</div><div class="ps-val">${fmt(state.netWorth)}</div></div><div class="ps"><div class="ps-lbl">AVG RTN</div><div class="ps-val ${avg>=0?'pos':'neg'}">${avg>=0?'+':''}${(avg*100).toFixed(0)}%</div></div><div class="ps"><div class="ps-lbl">BEST PICK</div><div class="ps-val pos">${best?best.ticker:'—'}</div></div><div class="ps"><div class="ps-lbl">PLAYS</div><div class="ps-val">${state.round}</div></div>`;}
+function renderPortSum(){const avg=state.holdings.length?state.holdings.reduce((a,h)=>a+h.pnl,0)/state.holdings.length:0;const best=state.holdings.length?state.holdings.reduce((a,b)=>a.pnl>b.pnl?a:b):null;document.getElementById('portSum').innerHTML=`<div class="ps"><div class="ps-lbl">CAPITAL</div><div class="ps-val">${fmt(state.netWorth)}</div></div><div class="ps"><div class="ps-lbl">AVG RTN</div><div class="ps-val ${avg>=0?'pos':'neg'}">${avg>=0?'+':''}${(avg*100).toFixed(0)}%</div></div><div class="ps"><div class="ps-lbl">BEST PICK</div><div class="ps-val pos">${best?best.ticker:'—'}</div></div><div class="ps"><div class="ps-lbl">PLAYS</div><div class="ps-val">${state.round}</div></div>`;}
 function renderHolds(){const s=document.getElementById('holdsStrip');if(!state.holdings.length){s.innerHTML='<div style="font-family:var(--fm);font-size:10px;color:var(--muted)">NO POSITIONS · CASH ONLY · DEGENERATE IN TRAINING</div>';return;}s.innerHTML=state.holdings.slice(-6).map(h=>`<div class="hold"><span class="ht">${h.ticker}</span><span class="hp ${h.pnl>=0?'pos':'neg'}">${h.pnl>=0?'+':''}${(h.pnl*100).toFixed(0)}%</span></div>`).join('');}
 
-async function fetchRound(){
-  busy=true;
-  document.getElementById('narrBox').innerHTML='<div class="lds"><span></span><span></span><span></span></div>';
-  document.getElementById('choicesGrid').innerHTML='';
-  document.getElementById('chyron').className='chyron';
-  document.getElementById('persBar').className='pers-bar';
-
-  const past=state.history.slice(-4).map(h=>`${h.stock}(${h.pnl>=0?'+':''}${(h.pnl*100).toFixed(0)}%)`).join(', ');
-  const userMsg=state.round===0
-    ?`Round 1 of 12. Player: ${state.player}. Just downloaded Robinhood and deposited rent money. $10,000 starting capital. Open the show.`
-    :`Round ${state.round+1} of 12. Player: ${state.player}. Net worth: ${fmt(state.netWorth)}. Recent plays: ${past||'none'}. Keep it fresh, reference history.`;
-
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-6',
-        max_tokens:1000,
-        system:SYS,
-        messages:[{role:'user',content:userMsg}]
-      })
-    });
-    const data=await res.json();
-    if(!res.ok) throw new Error(data?.error?.message||`HTTP ${res.status}`);
-    const raw=data.content.filter(b=>b.type==='text').map(b=>b.text).join('').trim();
-    const clean=raw.replace(/^```(?:json)?\n?/,'').replace(/\n?```$/,'').trim();
-    const parsed=JSON.parse(clean);
-    renderRound(parsed);
-    pending=parsed.choices;
-  }catch(e){
-    document.getElementById('narrBox').innerHTML=`<span style="color:var(--red)">⚠️ <strong>Error:</strong> ${e.message}</span><br><br><span style="color:var(--muted);font-size:12px;font-family:var(--fm)">This game requires the Claude.ai interface to run — open it inside claude.ai as an artifact, not as a standalone HTML file. For standalone use, add your Anthropic API key per the README.</span>`;
-  }
-  busy=false;
-}
-
-function renderRound(d){
-  document.getElementById('sceneTag').textContent=(d.scene_emoji||'📈')+' '+(d.scene_tag||'MARKET EVENT');
-  document.getElementById('narrBox').innerHTML=`<span class="big-e">${d.scene_emoji||'📈'}</span>${d.narrative}`;
-  if(d.market_event){document.getElementById('chyronBody').textContent=d.market_event;document.getElementById('chyron').className='chyron show';playTone('chyron');}
-  if(d.personality){document.getElementById('pAvatar').textContent=d.personality.emoji||'👔';document.getElementById('pName').textContent=d.personality.name;document.getElementById('pQuote').textContent='"'+d.personality.quote+'"';document.getElementById('persBar').className='pers-bar show';}
+function renderRound(){
+  const d=DECK[state.round];
+  const pers=pickPersonality();
+  const quote=pers.quotes[Math.floor(Math.random()*pers.quotes.length)];
+  document.getElementById('sceneTag').textContent=d.emoji+' '+d.tag;
+  document.getElementById('narrBox').innerHTML=`<span class="big-e">${d.emoji}</span>${d.narrative}`;
+  if(d.chyron){document.getElementById('chyronBody').textContent=d.chyron;document.getElementById('chyron').className='chyron show';playTone('chyron');}
+  else{document.getElementById('chyron').className='chyron';}
+  document.getElementById('pAvatar').textContent=pers.emoji;
+  document.getElementById('pName').textContent=pers.name;
+  document.getElementById('pQuote').textContent='"'+quote+'"';
+  document.getElementById('persBar').className='pers-bar show';
   const grid=document.getElementById('choicesGrid');grid.innerHTML='';
-  (d.choices||[]).forEach((c,i)=>{
+  d.choices.forEach((c,i)=>{
     const btn=document.createElement('button');btn.className='cb';
     const rl=c.risk==='high'?'🔥 YOLO':c.risk==='low'?'🛡 SAFE PLAY':'⚡ MID RISK';
-    btn.innerHTML=`<span class="c-ticker">${c.stock}</span><span class="c-txt"><strong>${c.label}</strong> — ${c.description}</span><span class="c-risk ${c.risk}">${rl}</span>`;
+    btn.innerHTML=`<span class="c-ticker">${c.stock}</span><span class="c-txt"><strong>${c.label}</strong> — ${c.desc}</span><span class="c-risk ${c.risk}">${rl}</span>`;
     btn.onclick=()=>makeChoice(i);grid.appendChild(btn);
   });
 }
 
 function makeChoice(idx){
-  if(!pending||busy)return;
-  const c=pending[idx];const[mn,mx]=c.multiplier_range;
-  const mult=mn+Math.random()*(mx-mn);const newW=state.netWorth*mult;const pnl=mult-1;
+  const c=DECK[state.round].choices[idx];
+  const[mn,mx]=c.mr;
+  const mult=mn+Math.random()*(mx-mn);
+  const newW=state.netWorth*mult;
+  const pnl=mult-1;
   document.querySelectorAll('.cb').forEach(b=>b.disabled=true);
   playTone(pnl>=0?'gain':'loss');
-  state.holdings.push({ticker:c.stock,pnl});state.history.push({stock:c.stock,pnl,worth:newW});
+  state.holdings.push({ticker:c.stock,pnl});
   state.netWorth=newW;state.round++;
   updateNW(newW,pnl>=0?'up':'dn');
   if(state.netWorth>=1e6){setTimeout(()=>showOutcome('win'),600);return;}
   if(state.netWorth<50||state.round>=state.maxRounds){setTimeout(()=>showOutcome(state.netWorth<50?'rekt':state.netWorth>=500000?'close':'lose'),600);return;}
-  setTimeout(()=>{renderProgress();renderPortSum();renderHolds();fetchRound();},500);
+  setTimeout(()=>{renderProgress();renderPortSum();renderHolds();renderRound();},500);
 }
 
 function showOutcome(type){
@@ -324,14 +320,26 @@ function renderLB(){
   }).join('');
 }
 
-function startGame(){playTone('bell');document.getElementById('introScreen').style.display='none';document.getElementById('gameScreen').style.display='block';renderProgress();renderPortSum();renderHolds();fetchRound();}
+function startGame(){
+  playTone('bell');DECK=buildDeck();
+  document.getElementById('introScreen').style.display='none';
+  document.getElementById('gameScreen').style.display='block';
+  renderProgress();renderPortSum();renderHolds();renderRound();
+}
 
 function resetGame(){
   const prev=[...state.scores];
-  state={netWorth:10000,round:0,maxRounds:12,history:[],holdings:[],player:'Ryan',scores:prev};pending=null;
-  document.getElementById('outcomeScreen').className='outcome';document.getElementById('introScreen').style.display='block';document.getElementById('gameScreen').style.display='none';
-  updateNW(10000,'');['Ryan','Franco','Joel'].forEach(p=>{const el=document.getElementById('p'+p);if(el)el.className='pc'+(p==='Ryan'?' active':'');});state.player='Ryan';
+  state={netWorth:10000,round:0,maxRounds:12,holdings:[],player:'Ryan',scores:prev};
+  lastPersonIdx=-1;DECK=[];
+  document.getElementById('outcomeScreen').className='outcome';
+  document.getElementById('introScreen').style.display='block';
+  document.getElementById('gameScreen').style.display='none';
+  updateNW(10000,'');
+  ['Ryan','Franco','Joel'].forEach(p=>{const el=document.getElementById('p'+p);if(el)el.className='pc'+(p==='Ryan'?' active':'');});
+  state.player='Ryan';
 }
 
 buildTicker();
 </script>
+</body>
+</html>
